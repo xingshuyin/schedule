@@ -1,0 +1,9 @@
+{
+    "vetur.format.options.useTabs": true,
+    "vetur.completion.scaffoldSnippetSources": {
+    
+        "workspace": "💼",
+        "user": "🗒️",
+        "vetur": "✌"
+    }
+}
