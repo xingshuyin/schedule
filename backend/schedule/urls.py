@@ -1,6 +1,6 @@
 from rest_framework.routers import SimpleRouter
 from .views.data import DataView
-from .views.schedule import fenbu_view, fenxiang_view
+from .views.view import fenbu_view, fenxiang_view
 
 router = SimpleRouter()
 router.register(prefix='data', viewset=DataView, basename='data')
