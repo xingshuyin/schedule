@@ -1,17 +1,17 @@
-import {request} from '@/api/service';
-import {BUTTON_STATUS_BOOL} from '@/config/button';
-import {urlPrefix as deptPrefix, addColumn} from './api';
-import XEUtils from 'xe-utils';
-import util from '@/libs/util';
+import {request} from '@/api/service'
+import {BUTTON_STATUS_BOOL} from '@/config/button'
+import {urlPrefix as deptPrefix, addColumn} from './api'
+import XEUtils from 'xe-utils'
+import util from '@/libs/util'
 
 export const crudOptions = (vm) => {
   return {
-    pagination: { //翻页配置
+    pagination: { // 翻页配置
       // 支持el-pagination
       currentPage: 1,
       pageSize: 10,
       total: 10,
-      storage: true, //本地保存用户每页条数修改，刷新不会丢失该修改，false=关闭
+      storage: true, // 本地保存用户每页条数修改，刷新不会丢失该修改，false=关闭
       // storage:'keysuffix'// 传入字符串，将会给保存的key增加一个后缀，用于区分同一个页面下多个crud
       request: {
         current: 'page',
@@ -27,10 +27,10 @@ export const crudOptions = (vm) => {
       }
     },
     pageOptions: {
-      compact: true,
+      compact: true
     },
     searchOptions: {
-      show: true,
+      show: true
     },
     options: {
       tableType: 'vxe-table',
@@ -47,44 +47,44 @@ export const crudOptions = (vm) => {
           'white-space': 'nowrap',
           overflow: 'hidden',
           padding: 0,
-          height: '10px',
-        };
-      },
+          height: '10px'
+        }
+      }
     },
     rowHandle: {
-      //每行后边操作的按钮
-      width: 270, //操作列宽度
+      // 每行后边操作的按钮
+      width: 270, // 操作列宽度
       view: {
         show: false,
         thin: true,
         text: '',
         disabled() {
-          return !vm.hasPermissions('Retrieve');
-        },
+          return !vm.hasPermissions('Retrieve')
+        }
       },
       edit: {
         show: true,
         thin: true,
         text: '',
         disabled() {
-          true;
-        },
+          true
+        }
       },
       remove: {
         thin: true,
         text: '',
         disabled() {
-          return !vm.hasPermissions('Delete');
-        },
+          return !vm.hasPermissions('Delete')
+        }
       },
       custom: [
-        {icon: '', thin: true, text: '查看', emit: 'detail', size: 'small'},
+        {icon: '', thin: true, text: '查看', emit: 'detail', size: 'small'}
       ]
     },
     indexRow: false,
 
     viewOptions: {
-      componentType: 'form',
+      componentType: 'form'
     },
     formOptions: {
       width: '60%',
@@ -92,7 +92,7 @@ export const crudOptions = (vm) => {
       // center: true, // 标题与按钮居中布局
       labelPosition: 'left',
       gutter: 20,
-      defaultSpan: 12, // 默认的表单 span
+      defaultSpan: 12 // 默认的表单 span
     },
     formGroup: {},
     columns: [
@@ -105,14 +105,14 @@ export const crudOptions = (vm) => {
           disabled: false,
           component: {
             props: {
-              clearable: true,
-            },
-          },
+              clearable: true
+            }
+          }
         },
         form: {},
         valueBuilder(row, key) {
           // 传入数据时执行
-        },
+        }
         // disabled: true , // 是否在列表中显示
       },
       {
@@ -121,11 +121,11 @@ export const crudOptions = (vm) => {
         sortable: true,
         type: 'daterange',
         search: {
-          disabled: true,
+          disabled: true
         },
         form: {
           component: {
-            'value-format': 'yyyy-MM-dd',
+            'value-format': 'yyyy-MM-dd'
           },
           valueChange(
             key,
@@ -133,15 +133,15 @@ export const crudOptions = (vm) => {
             form,
             {getColumn, mode, component, immediate, getComponent}
           ) {
-            console.log(value);
+            console.log(value)
             if (value[0] && value[1]) {
-              const start = new Date(value[0]);
-              const end = new Date(value[1]);
+              const start = new Date(value[0])
+              const end = new Date(value[1])
               // console.log();
-              form.len = parseInt((end - start) / (1000 * 60 * 60 * 24));
+              form.len = parseInt((end - start) / (1000 * 60 * 60 * 24))
             }
             // form表单数据change事件，表单值有改动将触发此事件
-          },
+          }
         },
         // disabled: true , // 是否在列表中显示
         valueBuilder(row, key) {
@@ -149,7 +149,7 @@ export const crudOptions = (vm) => {
         },
         valueResolve(row, key) {
           // 传出数据时执行
-        },
+        }
       },
       {
         title: '时长',
@@ -157,14 +157,14 @@ export const crudOptions = (vm) => {
         sortable: true,
         // type: 'select',
         search: {
-          disabled: true,
+          disabled: true
         },
         form: {},
         valueBuilder(row, key) {
           // 传入数据时执行
-        },
+        }
         // disabled: true , // 是否在列表中显示
-      },
-    ],
-  };
-};
+      }
+    ]
+  }
+}

@@ -1,17 +1,21 @@
 from django.db import models
 from dvadmin.utils.models import CoreModel
-from dvadmin.system.models import Users
-
 
 # 项目
+
+
 class XiangMu(CoreModel):
     name = models.CharField(max_length=200, verbose_name='项目名')
-    starts = models.DateField()
+    jianshe = models.CharField(max_length=200, verbose_name='建设单位')
+    sheji = models.CharField(max_length=100, verbose_name='设计单位')
+    jianli = models.CharField(max_length=100, verbose_name='监理单位')
+    dizhi = models.CharField(max_length=200, verbose_name='地址')
 
 
 # 分部工程
 class FenBu(CoreModel):
     name = models.CharField(max_length=200, verbose_name='分部工程名')
+    pre = models.ForeignKey('self', on_delete=models.SET_NULL, null=True, blank=True)
     during = models.JSONField()
     len = models.IntegerField()
     xiangmu = models.ForeignKey(XiangMu, on_delete=models.CASCADE)
@@ -21,6 +25,7 @@ class FenBu(CoreModel):
 class FenXiang(CoreModel):
     name = models.CharField(max_length=200, verbose_name='分项工程名')
     pre = models.ForeignKey('self', on_delete=models.SET_NULL, null=True, blank=True)
+    xiangmu = models.ForeignKey(XiangMu, on_delete=models.CASCADE)
     fenbu = models.ForeignKey(FenBu, on_delete=models.CASCADE)
     during = models.JSONField()
     charu = models.IntegerField(verbose_name='提前插入时间start-', null=True, blank=True)
@@ -48,26 +53,28 @@ class Media(models.Model):
 # 材料数量模型
 class Material(models.Model):
     name = models.CharField(max_length=100, verbose_name='材料名称')
-    quantity = models.IntegerField(verbose_name='数量')
+    quantity = models.IntegerField(verbose_name='数量', default=0)
     unit = models.CharField(max_length=20, verbose_name='单位')
 
 
 # 材料入库记录-模型
 class MaterialIn(models.Model):
-    name = models.CharField(max_length=100, verbose_name='材料名称')
-    material = models.ForeignKey(Material, on_delete=models.CASCADE)
     quantity = models.IntegerField(verbose_name='入库数量')
+    xiangmu = models.ForeignKey(XiangMu, on_delete=models.SET_NULL, null=True)
+    fenxaing = models.ForeignKey(FenXiang, on_delete=models.SET_NULL, null=True)
+    fenbu = models.ForeignKey(FenBu, on_delete=models.SET_NULL, null=True)
+    unit = models.CharField(max_length=20, verbose_name='单位')
 
 
 # 材料出库记录-模型
 class MaterialOut(models.Model):
     material = models.ForeignKey(Material, on_delete=models.CASCADE)
-    xiangmu = models.ForeignKey(XiangMu, on_delete=models.SET_NULL)
-    fenxaing = models.ForeignKey(FenXiang, on_delete=models.SET_NULL)
-    fenbu = models.ForeignKey(FenBu, on_delete=models.SET_NULL)
+    xiangmu = models.ForeignKey(XiangMu, on_delete=models.SET_NULL, null=True)
+    fenxaing = models.ForeignKey(FenXiang, on_delete=models.SET_NULL, null=True)
+    fenbu = models.ForeignKey(FenBu, on_delete=models.SET_NULL, null=True)
+    unit = models.CharField(max_length=20, verbose_name='单位')
 
-
-class User(Users):
-    xiangmu = models.ForeignKey(XiangMu, on_delete=models.SET_NULL)
-    fenxaing = models.ForeignKey(FenXiang, on_delete=models.SET_NULL)
-    fenbu = models.ForeignKey(FenBu, on_delete=models.SET_NULL)
+# class User(Users):
+#     xiangmu = models.ForeignKey(XiangMu, on_delete=models.SET_NULL, null=True)
+#     fenxaing = models.ForeignKey(FenXiang, on_delete=models.SET_NULL, null=True)
+#     fenbu = models.ForeignKey(FenBu, on_delete=models.SET_NULL, null=True)

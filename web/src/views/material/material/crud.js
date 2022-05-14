@@ -55,7 +55,7 @@ export const crudOptions = (vm) => {
       // 每行后边操作的按钮
       width: 270, // 操作列宽度
       view: {
-        show: false,
+        show: true,
         thin: true,
         text: '',
         disabled() {
@@ -77,8 +77,7 @@ export const crudOptions = (vm) => {
           return !vm.hasPermissions('Delete')
         }
       },
-      custom: [
-      ]
+      custom: []
     },
     indexRow: false,
 
@@ -96,7 +95,7 @@ export const crudOptions = (vm) => {
     formGroup: {},
     columns: [
       {
-        title: '名称',
+        title: '材料名称',
         key: 'name',
         sortable: true,
         // type: 'select',
@@ -105,25 +104,6 @@ export const crudOptions = (vm) => {
           component: {
             props: {
               clearable: true
-            }
-          }
-        },
-        form: {},
-        valueBuilder(row, key) {
-          // 传入数据时执行
-        }
-        // disabled: true , // 是否在列表中显示
-      },
-      {
-        title: '项目',
-        key: 'xiangmu',
-        sortable: true,
-        type: 'select',
-        search: {
-          disabled: false,
-          component: {
-            props: {
-              clearable: true
               // size: 'mini'
             }
           }
@@ -137,132 +117,64 @@ export const crudOptions = (vm) => {
               clearable: true
               // size: 'mini'
             },
-            rules: [{required: true, message: '施工段不能为空'}]
+            rules: [{required: true, message: '分部工程不能为空'}]
           }
-        },
-        dict: {
-          getData() {
-            return request({
-              url: '/sche/data/xiangmu',
-              method: 'get',
-              data: {}
-            }).then((res) => {
-              // 非IE下载
-              console.log(res)
-              return res
-            })
-          },
-          value: 'id',
-          label: 'name'
-        },
-        valueBuilder(row, key) {
-          // 传入数据时执行
-          // row.area = row.county_code.substring(0, 7)
-        },
-        valueResolve(row, key) {
-          // 传出数据时执行
-          // row.area = row.area[2]
         }
         // disabled: true , // 是否在列表中显示
       },
       {
-        title: '紧前工作',
-        key: 'pre',
-        sortable: true,
-        type: 'select',
-        search: {
-          disabled: false,
-          component: {
-            props: {
-              clearable: true
-              // size: 'mini'
-            }
-          }
-        },
-        form: {
-          component: {
-            show: true, // 是否在新增表单显示
-            span: 12,
-            disabled: false,
-            props: {
-              clearable: true
-              // size: 'mini'
-            },
-            rules: [{required: false, message: '施工段不能为空'}]
-          }
-        },
-        dict: {
-          getData() {
-            return request({
-              url: '/sche/data/fenbu',
-              method: 'get',
-              data: {}
-            }).then((res) => {
-              // 非IE下载
-              console.log(res)
-              return res
-            })
-          },
-          value: 'id',
-          label: 'name'
-        },
-        valueBuilder(row, key) {
-          // 传入数据时执行
-          // row.area = row.county_code.substring(0, 7)
-        },
-        valueResolve(row, key) {
-          // 传出数据时执行
-          // row.area = row.area[2]
-        }
-        // disabled: true , // 是否在列表中显示
-      },
-      {
-        title: '开始/结束时间',
-        key: 'during',
-        sortable: true,
-        type: 'daterange',
-        search: {
-          disabled: true
-        },
-        form: {
-          component: {
-            'value-format': 'yyyy-MM-dd'
-          },
-          valueChange(
-            key,
-            value,
-            form,
-            {getColumn, mode, component, immediate, getComponent}
-          ) {
-            console.log(value)
-            if (value[0] && value[1]) {
-              const start = new Date(value[0])
-              const end = new Date(value[1])
-              // console.log();
-              form.len = parseInt((end - start) / (1000 * 60 * 60 * 24))
-            }
-            // form表单数据change事件，表单值有改动将触发此事件
-          }
-        },
-        // disabled: true , // 是否在列表中显示
-        valueBuilder(row, key) {
-          // 传入数据时执行
-        },
-        valueResolve(row, key) {
-          // 传出数据时执行
-        }
-      },
-      {
-        title: '时长',
-        key: 'len',
+        title: '数量',
+        key: 'quantity',
         sortable: true,
         // type: 'select',
         search: {
-          disabled: true
+          disabled: false,
+          component: {
+            props: {
+              clearable: true
+              // size: 'mini'
+            }
+          }
         },
-        form: {},
-        valueBuilder(row, key) {
-          // 传入数据时执行
+        form: {
+          component: {
+            show: true, // 是否在新增表单显示
+            span: 12,
+            disabled: true,
+            props: {
+              clearable: true
+              // size: 'mini'
+            },
+            rules: [{required: false, message: ''}]
+          }
+        }
+        // disabled: true , // 是否在列表中显示
+      },
+      {
+        title: '单位',
+        key: 'unit',
+        sortable: true,
+        // type: 'select',
+        search: {
+          disabled: false,
+          component: {
+            props: {
+              clearable: true
+              // size: 'mini'
+            }
+          }
+        },
+        form: {
+          component: {
+            show: true, // 是否在新增表单显示
+            span: 12,
+            disabled: false,
+            props: {
+              clearable: true
+              // size: 'mini'
+            },
+            rules: [{required: true, message: '单位不能为空'}]
+          }
         }
         // disabled: true , // 是否在列表中显示
       }

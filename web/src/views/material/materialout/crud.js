@@ -55,7 +55,7 @@ export const crudOptions = (vm) => {
       // 每行后边操作的按钮
       width: 270, // 操作列宽度
       view: {
-        show: false,
+        show: true,
         thin: true,
         text: '',
         disabled() {
@@ -77,9 +77,7 @@ export const crudOptions = (vm) => {
           return !vm.hasPermissions('Delete')
         }
       },
-      custom: [
-        {icon: '', thin: true, text: '查看', emit: 'detail', size: 'small'}
-      ]
+      custom: []
     },
     indexRow: false,
 
@@ -94,23 +92,71 @@ export const crudOptions = (vm) => {
       gutter: 20,
       defaultSpan: 12 // 默认的表单 span
     },
+    formGroup: {},
     columns: [
       {
-        title: '名称',
-        key: 'name',
+        title: '材料名称',
+        key: 'material',
         sortable: true,
-        // type: 'select',
+        type: 'select',
         search: {
           disabled: false,
           component: {
             props: {
               clearable: true
+              // size: 'mini'
             }
           }
         },
-        form: {},
+        form: {
+          component: {
+            show: true, // 是否在新增表单显示
+            span: 12,
+            disabled: false,
+            props: {
+              clearable: true
+              // size: 'mini'
+            },
+            rules: [{required: true, message: '材料名称不能为空'}]
+          },
+          valueChange(
+            key,
+            value,
+            form,
+            {getColumn, mode, component, immediate, getComponent}
+          ) {
+            request({
+              url: '/sche/data/' + value + '/unit/',
+              method: 'get',
+              data: {}
+            }).then((res) => {
+              // 非IE下载
+              form.unit = res.data.unit
+            })
+          }
+        },
+        dict: {
+          getData() {
+            return request({
+              url: '/sche/data/material',
+              method: 'get',
+              data: {}
+            }).then((res) => {
+              // 非IE下载
+              console.log(res)
+              return res
+            })
+          },
+          value: 'id',
+          label: 'name'
+        },
         valueBuilder(row, key) {
           // 传入数据时执行
+          // row.area = row.county_code.substring(0, 7)
+        },
+        valueResolve(row, key) {
+          // 传出数据时执行
+          // row.area = row.area[2]
         }
         // disabled: true , // 是否在列表中显示
       },
@@ -217,8 +263,8 @@ export const crudOptions = (vm) => {
         // disabled: true , // 是否在列表中显示
       },
       {
-        title: '紧前工作',
-        key: 'pre',
+        title: '分项工程',
+        key: 'fenxaing',
         sortable: true,
         type: 'select',
         search: {
@@ -239,7 +285,7 @@ export const crudOptions = (vm) => {
               clearable: true
               // size: 'mini'
             },
-            rules: [{required: false, message: '施工段不能为空'}]
+            rules: [{required: true, message: '分项工程不能为空'}]
           }
         },
         dict: {
@@ -268,80 +314,20 @@ export const crudOptions = (vm) => {
         // disabled: true , // 是否在列表中显示
       },
       {
-        title: '开始/结束时间',
-        key: 'during',
-        sortable: true,
-        type: 'daterange',
-        search: {
-          disabled: true
-        },
-        form: {
-          component: {
-            'value-format': 'yyyy-MM-dd'
-          },
-          valueChange(
-            key,
-            value,
-            form,
-            {getColumn, mode, component, immediate, getComponent}
-          ) {
-            console.log(value)
-            if (value[0] && value[1]) {
-              const start = new Date(value[0])
-              const end = new Date(value[1])
-              // console.log();
-              form.len = parseInt((end - start) / (1000 * 60 * 60 * 24))
-            }
-            // form表单数据change事件，表单值有改动将触发此事件
-          }
-        },
-        // disabled: true , // 是否在列表中显示
-        valueBuilder(row, key) {
-          // 传入数据时执行
-        },
-        valueResolve(row, key) {
-          // 传出数据时执行
-        }
-      },
-      {
-        title: '时长',
-        key: 'len',
+        title: '单位',
+        key: 'unit',
         sortable: true,
         // type: 'select',
         search: {
-          disabled: true
+          disabled: true,
+          component: {
+            props: {
+              clearable: true
+            }
+          }
         },
-        form: {},
-        valueBuilder(row, key) {
-          // 传入数据时执行
-        }
-        // disabled: true , // 是否在列表中显示
-      },
-      {
-        title: '提前插入时长',
-        key: 'charu',
-        sortable: true,
-        type: 'number',
-        search: {
+        form: {
           disabled: true
-        },
-        form: {},
-        valueBuilder(row, key) {
-          // 传入数据时执行
-        }
-        // disabled: true , // 是否在列表中显示
-      },
-      {
-        title: '工艺间歇时间',
-        key: 'jianxie',
-        sortable: true,
-        type: 'number',
-        search: {
-          disabled: true
-        },
-        form: {},
-        valueBuilder(row, key) {
-          // 传入数据时执行
         }
         // disabled: true , // 是否在列表中显示
       }

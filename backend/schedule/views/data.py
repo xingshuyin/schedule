@@ -1,41 +1,60 @@
-from backend.schedule.models import FenBu, FenXiang, XiangMu
+from schedule.models import FenBu, FenXiang, Material, XiangMu
 from rest_framework import viewsets
 from rest_framework import serializers
 from rest_framework.serializers import Serializer
 from rest_framework.decorators import action
 from django.http import JsonResponse
 
+from dvadmin.system.models import Area
 
-class Data_xiangmu_Ser(Serializer):
+
+class DataXiangMuSer(Serializer):
     id = serializers.IntegerField()
     name = serializers.CharField()
 
 
-class Data_fenbu_Ser(Serializer):
+class DataFenBuSer(Serializer):
     id = serializers.IntegerField()
     name = serializers.CharField()
 
 
-class Data_guocheng_Ser(Serializer):
+class DataFenXiangSer(Serializer):
+    id = serializers.IntegerField()
+    name = serializers.CharField()
+
+
+class DataMaterialSer(Serializer):
     id = serializers.IntegerField()
     name = serializers.CharField()
 
 
 class DataView(viewsets.ViewSet):
+
     @action(['get'], detail=False, url_path='xiangmu', url_name='xiangmu', permission_classes=[])
-    def get_xiangmu_all(self, request):
+    def GetXiangMuAll(self, request):
         xiangmu = XiangMu.objects.all().values('id', 'name')
-        ser = Data_xiangmu_Ser(xiangmu, many=True)
+        ser = DataXiangMuSer(xiangmu, many=True)
         return JsonResponse(ser.data, safe=False)
 
     @action(['get'], detail=False, url_path='fenbu', url_name='fenbu', permission_classes=[])
-    def get_fenbu_all(self, request):
+    def GetFenBuAll(self, request):
         fenbu = FenBu.objects.all().values('id', 'name')
-        ser = Data_fenbu_Ser(fenbu, many=True)
+        ser = DataFenBuSer(fenbu, many=True)
         return JsonResponse(ser.data, safe=False)
 
     @action(['get'], detail=False, url_path='fenxiang', url_name='fenxiang', permission_classes=[])
-    def get_fenxiang_all(self, request):
+    def GetFenXiangAll(self, request):
         fenxiang = FenXiang.objects.all().values('id', 'name')
-        ser = Data_guocheng_Ser(fenxiang, many=True)
+        ser = DataFenXiangSer(fenxiang, many=True)
         return JsonResponse(ser.data, safe=False)
+
+    @action(['get'], detail=False, url_path='fenxiang', url_name='fenxiang', permission_classes=[])
+    def GetMaterialAll(self, request):
+        material = Material.objects.all().values('id', 'name')
+        ser = DataMaterialSer(material, many=True)
+        return JsonResponse(ser.data, safe=False)
+
+    @action(['get'], detail=True, url_path='unit', url_name='unit', permission_classes=[])
+    def GetUserAll(self, request, pk):
+        material = Material.objects.get(pk=pk)
+        return JsonResponse({'code': 2000, 'data': {'unit': material.unit}}, safe=False)

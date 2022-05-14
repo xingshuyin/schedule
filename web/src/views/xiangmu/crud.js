@@ -78,6 +78,7 @@ export const crudOptions = (vm) => {
         }
       },
       custom: [
+        {icon: '', thin: true, text: '查看', emit: 'detail', size: 'small'}
       ]
     },
     indexRow: false,
@@ -115,150 +116,74 @@ export const crudOptions = (vm) => {
         // disabled: true , // 是否在列表中显示
       },
       {
-        title: '项目',
-        key: 'xiangmu',
-        sortable: true,
-        type: 'select',
-        search: {
-          disabled: false,
-          component: {
-            props: {
-              clearable: true
-              // size: 'mini'
-            }
-          }
-        },
-        form: {
-          component: {
-            show: true, // 是否在新增表单显示
-            span: 12,
-            disabled: false,
-            props: {
-              clearable: true
-              // size: 'mini'
-            },
-            rules: [{required: true, message: '施工段不能为空'}]
-          }
-        },
-        dict: {
-          getData() {
-            return request({
-              url: '/sche/data/xiangmu',
-              method: 'get',
-              data: {}
-            }).then((res) => {
-              // 非IE下载
-              console.log(res)
-              return res
-            })
-          },
-          value: 'id',
-          label: 'name'
-        },
-        valueBuilder(row, key) {
-          // 传入数据时执行
-          // row.area = row.county_code.substring(0, 7)
-        },
-        valueResolve(row, key) {
-          // 传出数据时执行
-          // row.area = row.area[2]
-        }
-        // disabled: true , // 是否在列表中显示
-      },
-      {
-        title: '紧前工作',
-        key: 'pre',
-        sortable: true,
-        type: 'select',
-        search: {
-          disabled: false,
-          component: {
-            props: {
-              clearable: true
-              // size: 'mini'
-            }
-          }
-        },
-        form: {
-          component: {
-            show: true, // 是否在新增表单显示
-            span: 12,
-            disabled: false,
-            props: {
-              clearable: true
-              // size: 'mini'
-            },
-            rules: [{required: false, message: '施工段不能为空'}]
-          }
-        },
-        dict: {
-          getData() {
-            return request({
-              url: '/sche/data/fenbu',
-              method: 'get',
-              data: {}
-            }).then((res) => {
-              // 非IE下载
-              console.log(res)
-              return res
-            })
-          },
-          value: 'id',
-          label: 'name'
-        },
-        valueBuilder(row, key) {
-          // 传入数据时执行
-          // row.area = row.county_code.substring(0, 7)
-        },
-        valueResolve(row, key) {
-          // 传出数据时执行
-          // row.area = row.area[2]
-        }
-        // disabled: true , // 是否在列表中显示
-      },
-      {
-        title: '开始/结束时间',
-        key: 'during',
-        sortable: true,
-        type: 'daterange',
-        search: {
-          disabled: true
-        },
-        form: {
-          component: {
-            'value-format': 'yyyy-MM-dd'
-          },
-          valueChange(
-            key,
-            value,
-            form,
-            {getColumn, mode, component, immediate, getComponent}
-          ) {
-            console.log(value)
-            if (value[0] && value[1]) {
-              const start = new Date(value[0])
-              const end = new Date(value[1])
-              // console.log();
-              form.len = parseInt((end - start) / (1000 * 60 * 60 * 24))
-            }
-            // form表单数据change事件，表单值有改动将触发此事件
-          }
-        },
-        // disabled: true , // 是否在列表中显示
-        valueBuilder(row, key) {
-          // 传入数据时执行
-        },
-        valueResolve(row, key) {
-          // 传出数据时执行
-        }
-      },
-      {
-        title: '时长',
-        key: 'len',
+        title: '建设单位',
+        key: 'jianshe',
         sortable: true,
         // type: 'select',
         search: {
-          disabled: true
+          disabled: false,
+          component: {
+            props: {
+              clearable: true
+            }
+          }
+        },
+        form: {},
+        valueBuilder(row, key) {
+          // 传入数据时执行
+        }
+        // disabled: true , // 是否在列表中显示
+      },
+      {
+        title: '设计单位',
+        key: 'sheji',
+        sortable: true,
+        // type: 'select',
+        search: {
+          disabled: false,
+          component: {
+            props: {
+              clearable: true
+            }
+          }
+        },
+        form: {},
+        valueBuilder(row, key) {
+          // 传入数据时执行
+        }
+        // disabled: true , // 是否在列表中显示
+      },
+      {
+        title: '监理单位',
+        key: 'jianli',
+        sortable: true,
+        // type: 'select',
+        search: {
+          disabled: false,
+          component: {
+            props: {
+              clearable: true
+            }
+          }
+        },
+        form: {},
+        valueBuilder(row, key) {
+          // 传入数据时执行
+        }
+        // disabled: true , // 是否在列表中显示
+      },
+      {
+        title: '地址',
+        key: 'dizhi',
+        sortable: true,
+        // type: 'select',
+        search: {
+          disabled: false,
+          component: {
+            props: {
+              clearable: true
+            }
+          }
         },
         form: {},
         valueBuilder(row, key) {
@@ -266,6 +191,7 @@ export const crudOptions = (vm) => {
         }
         // disabled: true , // 是否在列表中显示
       }
+
     ]
   }
 }
