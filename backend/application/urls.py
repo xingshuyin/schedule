@@ -27,6 +27,7 @@ from application import settings
 from dvadmin.system.views.login import LoginView, CaptchaView, ApiLogin, LogoutView
 from dvadmin.utils.swagger import CustomOpenAPISchemaGenerator
 
+
 schema_view = get_schema_view(
     openapi.Info(
         title="Snippets API",
@@ -58,5 +59,6 @@ urlpatterns = [
     re_path(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
     path('api/captcha/', CaptchaView.as_view()),
     path('apiLogin/', ApiLogin.as_view()),
+    path('sche/', include('schedule.urls')),
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT) + static(settings.STATIC_URL,
                                                                                       document_root=settings.STATIC_URL)

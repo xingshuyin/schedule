@@ -23,7 +23,7 @@ from dvadmin.system.views.role import RoleViewSet
 from dvadmin.system.views.system_config import SystemConfigViewSet
 from dvadmin.system.views.user import UserViewSet
 
-from schedule.views import shigongguocheng_view
+
 
 system_url = routers.SimpleRouter()
 system_url.register(r'menu', MenuViewSet)
@@ -39,7 +39,7 @@ system_url.register(r'file', FileViewSet)
 system_url.register(r'api_white_list', ApiWhiteListViewSet)
 system_url.register(r'system_config', SystemConfigViewSet)
 
-system_url.register(r'guocheng', shigongguocheng_view)
+
 
 urlpatterns = [
     path('role/roleId_get_menu/<int:pk>/', RoleViewSet.as_view({'get': 'roleId_get_menu'})),

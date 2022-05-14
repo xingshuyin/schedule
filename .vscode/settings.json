@@ -5,5 +5,7 @@
         "workspace": "💼",
         "user": "🗒️",
         "vetur": "✌"
-    }
+    },
+    "prettier.jsxBracketSameLine": true,
+    "prettier.printWidth": 800
 }
