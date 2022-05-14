@@ -3,7 +3,7 @@ from rest_framework.pagination import PageNumberPagination
 from dvadmin.utils.json_response import DetailResponse, SuccessResponse
 from dvadmin.utils.serializers import CustomModelSerializer
 from dvadmin.utils.viewset import CustomModelViewSet
-from ..models import fenbu, fenxiang
+from ..models import Fenbu, Fenxiang
 # Create your views here.
 
 
@@ -16,13 +16,13 @@ class Pager(PageNumberPagination):
 class fenbu_ser(CustomModelSerializer):
 
     class Meta:
-        model = fenbu
+        model = Fenbu
         fields = "__all__"
         read_only_fields = ['id']
 
 
 class fenbu_view(CustomModelViewSet):
-    queryset = fenbu.objects.all()
+    queryset = Fenbu.objects.all()
     pagination_class = Pager
     serializer_class = fenbu_ser
     filter_backends = [filters.SearchFilter]
@@ -47,13 +47,13 @@ class fenbu_view(CustomModelViewSet):
 class fenxiang_ser(CustomModelSerializer):
 
     class Meta:
-        model = fenxiang
+        model = Fenxiang
         fields = "__all__"
         read_only_fields = ['id']
 
 
 class fenxiang_view(CustomModelViewSet):
-    queryset = fenxiang.objects.all()
+    queryset = Fenxiang.objects.all()
     pagination_class = Pager
     serializer_class = fenxiang_ser
     filter_backends = [filters.SearchFilter]
