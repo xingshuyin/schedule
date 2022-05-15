@@ -40,11 +40,11 @@
 
 <script>
 import * as api from './api'
-import {crudOptions} from './crud'
-import {d2CrudPlus} from 'd2-crud-plus'
+import { crudOptions } from './crud'
+import { d2CrudPlus } from 'd2-crud-plus'
 
 export default {
-  name: 'xiangmu',
+  name: 'danxiang',
   mixins: [d2CrudPlus.crud],
   data () {
     return {}
@@ -112,7 +112,6 @@ export default {
     color: #49a1ff;
   }
 }
-
 .vxe-cell span {
   white-space: nowrap;
   text-overflow: ellipsis;

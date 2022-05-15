@@ -15,7 +15,7 @@ class XiangMu(CoreModel):
         ...
 
 
-# 单项工程(独立施工)
+# 单项工程
 class DanXiang(CoreModel):
     name = models.CharField(max_length=200, verbose_name='分部工程名')
     pre = models.ForeignKey('self', on_delete=models.SET_NULL, null=True, blank=True)
@@ -25,7 +25,7 @@ class DanXiang(CoreModel):
     # danwei = models.ForeignKey(DanWei, on_delete=models.CASCADE)
 
 
-# 分项工程->单位工程 独立设计
+# 单位工程
 class DanWei(CoreModel):
     name = models.CharField(max_length=200, verbose_name='单位工程名')
     pre = models.ForeignKey('self', on_delete=models.SET_NULL, null=True, blank=True)
@@ -35,10 +35,7 @@ class DanWei(CoreModel):
     len = models.IntegerField(verbose_name='时长')
 
 
-
-
-
-# 分部工程 new
+# 分部工程
 class FenBu(CoreModel):
     name = models.CharField(max_length=200, verbose_name='分部工程名')
     pre = models.ForeignKey('self', on_delete=models.SET_NULL, null=True, blank=True)
@@ -49,7 +46,7 @@ class FenBu(CoreModel):
     len = models.IntegerField(verbose_name='时长')
 
 
-# 施工工序->fenxiang
+# fenxiang
 class FenXiang(CoreModel):
     name = models.CharField(max_length=200, verbose_name='分项工程名')
     during = models.JSONField()

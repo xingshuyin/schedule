@@ -1,4 +1,4 @@
-import {request} from '@/api/service'
+import { request } from '@/api/service'
 
 export const crudOptions = (vm) => {
   return {

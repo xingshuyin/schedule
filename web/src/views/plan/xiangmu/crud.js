@@ -61,7 +61,7 @@ export const crudOptions = (vm) => {
         thin: true,
         text: '',
         disabled () {
-          true
+          return false
         }
       },
       remove: {

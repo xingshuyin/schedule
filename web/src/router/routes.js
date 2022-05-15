@@ -29,34 +29,34 @@ const frameIn = [{
       },
       component: () => import('@/layout/header-aside/components/header-user/userinfo')
     },
-    // 演示页面
-    {
-      path: 'page1',
-      name: 'page1',
-      meta: {
-        title: '页面 1',
-        auth: true
-      },
-      component: _import('demo/page1')
-    },
-    {
-      path: 'page2',
-      name: 'page2',
-      meta: {
-        title: '页面 2',
-        auth: true
-      },
-      component: _import('demo/page2')
-    },
-    {
-      path: 'page3',
-      name: 'page3',
-      meta: {
-        title: '页面 3',
-        auth: true
-      },
-      component: _import('demo/page3')
-    },
+    // // 演示页面
+    // {
+    //   path: 'page1',
+    //   name: 'page1',
+    //   meta: {
+    //     title: '页面 1',
+    //     auth: true
+    //   },
+    //   component: _import('demo/page1')
+    // },
+    // {
+    //   path: 'page2',
+    //   name: 'page2',
+    //   meta: {
+    //     title: '页面 2',
+    //     auth: true
+    //   },
+    //   component: _import('demo/page2')
+    // },
+    // {
+    //   path: 'page3',
+    //   name: 'page3',
+    //   meta: {
+    //     title: '页面 3',
+    //     auth: true
+    //   },
+    //   component: _import('demo/page3')
+    // },
     // dashboard 工作台
     {
       path: 'workbench',

@@ -6,10 +6,10 @@
  * 联系Qq:1638245306
  * @文件介绍: 部门管理接口
  */
-import {request} from '@/api/service'
+import { request } from '@/api/service'
 import XEUtils from 'xe-utils'
 
-export const urlPrefix = '/sche/xiangmu/'
+export const urlPrefix = '/sche/fenxiang/'
 
 /**
  * 列表查询
