@@ -138,7 +138,7 @@ export const crudOptions = (vm) => {
         dict: {
           getData() {
             return request({
-              url: '/sche/data/material',
+              url: '/sche/data/material/',
               method: 'get',
               data: {}
             }).then((res) => {
@@ -149,15 +149,8 @@ export const crudOptions = (vm) => {
           },
           value: 'id',
           label: 'name'
-        },
-        valueBuilder(row, key) {
-          // 传入数据时执行
-          // row.area = row.county_code.substring(0, 7)
-        },
-        valueResolve(row, key) {
-          // 传出数据时执行
-          // row.area = row.area[2]
         }
+
         // disabled: true , // 是否在列表中显示
       },
       {
@@ -183,13 +176,25 @@ export const crudOptions = (vm) => {
               clearable: true
               // size: 'mini'
             },
-            rules: [{required: true, message: '项目不能为空'}]
+            rules: [{required: true, message: '施工段不能为空'}]
+          },
+          valueChange(key, value, form, {getColumn, mode, component, immediate, getComponent}) {
+            return request({
+              url: '/sche/data/' + value + '/danwei/',
+              method: 'get',
+              data: {}
+            }).then((res) => {
+              // 非IE下载
+              getColumn('danwei').component.props.options = res
+              // getColumn('pre').component.props.options = res
+              console.log(res, form, getComponent)
+            })
           }
         },
         dict: {
           getData() {
             return request({
-              url: '/sche/data/xiangmu',
+              url: '/sche/data/xiangmu/',
               method: 'get',
               data: {}
             }).then((res) => {
@@ -204,15 +209,173 @@ export const crudOptions = (vm) => {
         valueBuilder(row, key) {
           // 传入数据时执行
           // row.area = row.county_code.substring(0, 7)
-        },
-        valueResolve(row, key) {
-          // 传出数据时执行
-          // row.area = row.area[2]
         }
         // disabled: true , // 是否在列表中显示
       },
       {
+        title: '单位工程',
+        key: 'danwei',
+        sortable: true,
+        type: 'select',
+        search: {
+          disabled: false,
+          component: {
+            props: {
+              clearable: true
+              // size: 'mini'
+            }
+          }
+        },
+        form: {
+          component: {
+            show: true, // 是否在新增表单显示
+            span: 12,
+            disabled: false,
+            props: {
+              clearable: true
+              // size: 'mini'
+            },
+            rules: [{required: true, message: '分部工程不能为空'}]
+          },
+          valueChange(key, value, form, {getColumn, mode, component, immediate, getComponent}) {
+            return request({
+              url: '/sche/data/' + value + '/danxiang/',
+              method: 'get',
+              data: {}
+            }).then((res) => {
+              // 非IE下载
+              getColumn('danxiang').component.props.options = res
+            })
+          }
+        },
+        dict: {
+          getData() {
+            return request({
+              url: '/sche/data/0/danwei/',
+              method: 'get',
+              data: {}
+            }).then((res) => {
+              // 非IE下载
+              console.log(res)
+              return res
+            })
+          },
+          value: 'id',
+          label: 'name'
+        }
+
+        // disabled: true , // 是否在列表中显示
+      },
+      {
+        title: '单项工程',
+        key: 'danxiang',
+        sortable: true,
+        type: 'select',
+        search: {
+          disabled: false,
+          component: {
+            props: {
+              clearable: true
+              // size: 'mini'
+            }
+          }
+        },
+        form: {
+          component: {
+            show: true, // 是否在新增表单显示
+            span: 12,
+            disabled: false,
+            props: {
+              clearable: true
+              // size: 'mini'
+            },
+            rules: [{required: true, message: '分部工程不能为空'}]
+          },
+          valueChange(key, value, form, {getColumn, mode, component, immediate, getComponent}) {
+            return request({
+              url: '/sche/data/' + value + '/fenbu/',
+              method: 'get',
+              data: {}
+            }).then((res) => {
+              // 非IE下载
+              getColumn('fenbu').component.props.options = res
+            })
+          }
+        },
+        dict: {
+          getData() {
+            return request({
+              url: '/sche/data/0/danxiang/',
+              method: 'get',
+              data: {}
+            }).then((res) => {
+              // 非IE下载
+              console.log(res)
+              return res
+            })
+          },
+          value: 'id',
+          label: 'name'
+        }
+
+        // disabled: true , // 是否在列表中显示
+      },
+      {
         title: '分部工程',
+        key: 'fenbu',
+        sortable: true,
+        type: 'select',
+        search: {
+          disabled: false,
+          component: {
+            props: {
+              clearable: true
+              // size: 'mini'
+            }
+          }
+        },
+        form: {
+          component: {
+            show: true, // 是否在新增表单显示
+            span: 12,
+            disabled: false,
+            props: {
+              clearable: true
+              // size: 'mini'
+            },
+            rules: [{required: true, message: '分部工程不能为空'}]
+          },
+          valueChange(key, value, form, {getColumn, mode, component, immediate, getComponent}) {
+            return request({
+              url: '/sche/data/' + value + '/fenxiang/',
+              method: 'get',
+              data: {}
+            }).then((res) => {
+              // 非IE下载
+              getColumn('fenxiang').component.props.options = res
+            })
+          }
+        },
+        dict: {
+          getData() {
+            return request({
+              url: '/sche/data/0/fenbu/',
+              method: 'get',
+              data: {}
+            }).then((res) => {
+              // 非IE下载
+              console.log(res)
+              return res
+            })
+          },
+          value: 'id',
+          label: 'name'
+        }
+
+        // disabled: true , // 是否在列表中显示
+      },
+      {
+        title: '分项工程',
         key: 'fenbu',
         sortable: true,
         type: 'select',
@@ -240,7 +403,7 @@ export const crudOptions = (vm) => {
         dict: {
           getData() {
             return request({
-              url: '/sche/data/fenbu',
+              url: '/sche/data/0/fenxiang/',
               method: 'get',
               data: {}
             }).then((res) => {
@@ -251,24 +414,17 @@ export const crudOptions = (vm) => {
           },
           value: 'id',
           label: 'name'
-        },
-        valueBuilder(row, key) {
-          // 传入数据时执行
-          // row.area = row.county_code.substring(0, 7)
-        },
-        valueResolve(row, key) {
-          // 传出数据时执行
-          // row.area = row.area[2]
         }
+
         // disabled: true , // 是否在列表中显示
       },
       {
-        title: '分项工程',
-        key: 'fenxaing',
+        title: '数量',
+        key: 'quantity',
         sortable: true,
-        type: 'select',
+        // type: 'select',
         search: {
-          disabled: false,
+          disabled: true,
           component: {
             props: {
               clearable: true
@@ -285,31 +441,8 @@ export const crudOptions = (vm) => {
               clearable: true
               // size: 'mini'
             },
-            rules: [{required: true, message: '分部工程不能为空'}]
+            rules: [{required: true, message: '数量不能为空'}]
           }
-        },
-        dict: {
-          getData() {
-            return request({
-              url: '/sche/data/fenxiang',
-              method: 'get',
-              data: {}
-            }).then((res) => {
-              // 非IE下载
-              console.log(res)
-              return res
-            })
-          },
-          value: 'id',
-          label: 'name'
-        },
-        valueBuilder(row, key) {
-          // 传入数据时执行
-          // row.area = row.county_code.substring(0, 7)
-        },
-        valueResolve(row, key) {
-          // 传出数据时执行
-          // row.area = row.area[2]
         }
         // disabled: true , // 是否在列表中显示
       },
@@ -323,11 +456,21 @@ export const crudOptions = (vm) => {
           component: {
             props: {
               clearable: true
+              // size: 'mini'
             }
           }
         },
         form: {
-          disabled: true
+          component: {
+            show: true, // 是否在新增表单显示
+            span: 12,
+            disabled: true,
+            props: {
+              clearable: true
+              // size: 'mini'
+            },
+            rules: [{required: true, message: '单位不能为空'}]
+          }
         }
         // disabled: true , // 是否在列表中显示
       }

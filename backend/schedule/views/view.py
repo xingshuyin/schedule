@@ -3,7 +3,7 @@ from rest_framework.pagination import PageNumberPagination
 from dvadmin.utils.json_response import DetailResponse, SuccessResponse
 from dvadmin.utils.serializers import CustomModelSerializer
 from dvadmin.utils.viewset import CustomModelViewSet
-from ..models import FenBu, FenXiang, GongXu, XiangMu, MaterialOut, MaterialIn, Media, Material
+from ..models import DanWei, DanXiang, FenBu, FenXiang, XiangMu, MaterialOut, MaterialIn, Media, Material
 
 # Create your views here.
 
@@ -15,6 +15,7 @@ class Pager(PageNumberPagination):
 
 
 class XiangMu_ser(CustomModelSerializer):
+
     class Meta:
         model = XiangMu
         fields = "__all__"
@@ -44,17 +45,17 @@ class XiangMu_view(CustomModelViewSet):
         return DetailResponse(data=serializer.data, msg="新增成功")
 
 
-class FenBu_ser(CustomModelSerializer):
+class DanWei_ser(CustomModelSerializer):
     class Meta:
-        model = FenBu
+        model = DanWei
         fields = "__all__"
         read_only_fields = ['id']
 
 
-class FenBu_view(CustomModelViewSet):
-    queryset = FenBu.objects.all()
+class DanWei_view(CustomModelViewSet):
+    queryset = DanWei.objects.all()
     pagination_class = Pager
-    serializer_class = FenBu_ser
+    serializer_class = DanWei_ser
     filter_backends = [filters.SearchFilter]
 
     def list(self, request, *args, **kwargs):
@@ -74,17 +75,17 @@ class FenBu_view(CustomModelViewSet):
         return DetailResponse(data=serializer.data, msg="新增成功")
 
 
-class FenXiang_ser(CustomModelSerializer):
+class DanXiang_ser(CustomModelSerializer):
     class Meta:
-        model = FenXiang
+        model = DanXiang
         fields = "__all__"
         read_only_fields = ['id']
 
 
-class FenXiang_view(CustomModelViewSet):
-    queryset = FenXiang.objects.all()
+class DanXiang_view(CustomModelViewSet):
+    queryset = DanXiang.objects.all()
     pagination_class = Pager
-    serializer_class = FenXiang_ser
+    serializer_class = DanXiang_ser
     filter_backends = [filters.SearchFilter]
 
     def list(self, request, *args, **kwargs):
@@ -104,17 +105,47 @@ class FenXiang_view(CustomModelViewSet):
         return SuccessResponse(data=serializer.data, msg="获取成功")
 
 
-class GongXu_ser(CustomModelSerializer):
+class FenBu_ser(CustomModelSerializer):
     class Meta:
-        model = FenXiang
+        model = FenBu
         fields = "__all__"
         read_only_fields = ['id']
 
 
-class GongXu_view(CustomModelViewSet):
-    queryset = GongXu.objects.all()
+class FenBu_view(CustomModelViewSet):
+    queryset = FenBu.objects.all()
     pagination_class = Pager
-    serializer_class = GongXu_ser
+    serializer_class = FenBu_ser
+    filter_backends = [filters.SearchFilter]
+
+    def list(self, request, *args, **kwargs):
+        queryset = self.get_queryset()
+        filter_dict = request.GET.dict()
+        for i in ['page', 'limit']:
+            if i in filter_dict.keys():
+                del filter_dict[i]
+        print(filter_dict)
+        queryset = queryset.filter(**filter_dict)
+        queryset = self.filter_queryset(queryset)
+        page = self.paginate_queryset(queryset)
+        if page is not None:
+            serializer = self.get_serializer(page, many=True, request=request)
+            return SuccessResponse(data=serializer.data, msg="获取成功")
+        serializer = self.get_serializer(queryset, many=True, request=request)
+        return SuccessResponse(data=serializer.data, msg="获取成功")
+
+
+class FenXiang_ser(CustomModelSerializer):
+    class Meta:
+        model = DanXiang
+        fields = "__all__"
+        read_only_fields = ['id']
+
+
+class FenXiang_view(CustomModelViewSet):
+    queryset = FenXiang.objects.all()
+    pagination_class = Pager
+    serializer_class = FenXiang_ser
     filter_backends = [filters.SearchFilter]
 
     def list(self, request, *args, **kwargs):

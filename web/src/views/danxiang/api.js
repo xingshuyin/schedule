@@ -9,7 +9,7 @@
 import {request} from '@/api/service'
 import XEUtils from 'xe-utils'
 
-export const urlPrefix = '/sche/fenxiang/'
+export const urlPrefix = '/sche/danxiang/'
 
 /**
  * 列表查询

@@ -9,7 +9,7 @@
 import {request} from '@/api/service'
 import XEUtils from 'xe-utils'
 
-export const urlPrefix = '/sche/gongcheng/'
+export const urlPrefix = '/sche/danwei/'
 
 /**
  * 列表查询
@@ -34,7 +34,6 @@ export function GetList(query) {
  * 新增
  */
 export function createObj(obj) {
-  console.log('createObj', obj)
   return request({
     url: urlPrefix,
     method: 'post',

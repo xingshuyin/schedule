@@ -94,7 +94,6 @@ export const crudOptions = (vm) => {
       gutter: 20,
       defaultSpan: 12 // 默认的表单 span
     },
-    formGroup: {},
     columns: [
       {
         title: '名称',
@@ -109,9 +108,148 @@ export const crudOptions = (vm) => {
             }
           }
         },
-        form: {},
-        valueBuilder(row, key) {
-          // 传入数据时执行
+        form: {}
+        // disabled: true , // 是否在列表中显示
+      },
+      {
+        title: '项目',
+        key: 'xiangmu',
+        sortable: true,
+        type: 'select',
+        search: {
+          disabled: false,
+          component: {
+            props: {
+              clearable: true
+              // size: 'mini'
+            }
+          }
+        },
+        form: {
+          component: {
+            show: true, // 是否在新增表单显示
+            span: 12,
+            disabled: false,
+            props: {
+              clearable: true
+              // size: 'mini'
+            },
+            rules: [{required: true, message: '项目不能为空'}]
+          },
+          valueChange(key, value, form, {getColumn, mode, component, immediate, getComponent}) {
+            return request({
+              url: '/sche/data/' + value + '/danwei/',
+              method: 'get',
+              data: {}
+            }).then((res) => {
+              // 非IE下载
+              // getColumn('danxaing').component.props.options = res
+              getColumn('pre').component.props.options = res
+              console.log(res, form, getComponent)
+            })
+          }
+        },
+        dict: {
+          getData() {
+            return request({
+              url: '/sche/data/xiangmu/',
+              method: 'get',
+              data: {}
+            }).then((res) => {
+              // 非IE下载
+              console.log(res)
+              return res
+            })
+          },
+          value: 'id',
+          label: 'name'
+        }
+
+        // disabled: true , // 是否在列表中显示
+      },
+      // {
+      //   title: '分部工程',
+      //   key: 'danxaing',
+      //   sortable: true,
+      //   type: 'select',
+      //   search: {
+      //     disabled: false,
+      //     component: {
+      //       props: {
+      //         clearable: true
+      //         // size: 'mini'
+      //       }
+      //     }
+      //   },
+      //   form: {
+      //     component: {
+      //       show: true, // 是否在新增表单显示
+      //       span: 12,
+      //       disabled: false,
+      //       props: {
+      //         clearable: true
+      //         // size: 'mini'
+      //       },
+      //       rules: [{ required: true, message: '分部工程不能为空' }]
+      //     },
+      //     valueChange (key, value, form, { getColumn, mode, component, immediate, getComponent }) {
+      //       return request({
+      //         url: '/sche/data/' + value + '/danxaing',
+      //         method: 'get',
+      //         data: {}
+      //       }).then((res) => {
+      //         // 非IE下载
+      //         getColumn('pre').component.props.options = res
+      //       })
+      //     }
+      //   },
+      //   dict: {
+      //     value: 'id',
+      //     label: 'name'
+      //   }
+      //
+      //   // disabled: true , // 是否在列表中显示
+      // },
+      {
+        title: '紧前工作',
+        key: 'pre',
+        sortable: true,
+        type: 'select',
+        search: {
+          disabled: true,
+          component: {
+            props: {
+              clearable: true
+              // size: 'mini'
+            }
+          }
+        },
+        form: {
+          component: {
+            show: true, // 是否在新增表单显示
+            span: 12,
+            disabled: false,
+            props: {
+              clearable: true
+              // size: 'mini'
+            },
+            rules: [{required: false, message: '施工段不能为空'}]
+          }
+        },
+        dict: {
+          getData() {
+            return request({
+              url: '/sche/data/0/danwei/',
+              method: 'get',
+              data: {}
+            }).then((res) => {
+              // 非IE下载
+              console.log(res)
+              return res
+            })
+          },
+          value: 'id',
+          label: 'name'
         }
         // disabled: true , // 是否在列表中显示
       },
@@ -138,7 +276,7 @@ export const crudOptions = (vm) => {
               const start = new Date(value[0])
               const end = new Date(value[1])
               // console.log();
-              form.len = parseInt((end - start) / (1000 * 60 * 60 * 24))
+              form.len = parseInt((end - start) / (1000 * 60 * 60 * 24) + 1)
             }
             // form表单数据change事件，表单值有改动将触发此事件
           }

@@ -100,7 +100,7 @@ export const crudOptions = (vm) => {
         sortable: true,
         // type: 'select',
         search: {
-          disabled: false,
+          disabled: true,
           component: {
             props: {
               clearable: true
@@ -117,7 +117,7 @@ export const crudOptions = (vm) => {
               clearable: true
               // size: 'mini'
             },
-            rules: [{required: true, message: '分部工程不能为空'}]
+            rules: [{required: true, message: '名称不能为空'}]
           }
         }
         // disabled: true , // 是否在列表中显示
@@ -128,7 +128,7 @@ export const crudOptions = (vm) => {
         sortable: true,
         // type: 'select',
         search: {
-          disabled: false,
+          disabled: true,
           component: {
             props: {
               clearable: true
@@ -156,7 +156,7 @@ export const crudOptions = (vm) => {
         sortable: true,
         // type: 'select',
         search: {
-          disabled: false,
+          disabled: true,
           component: {
             props: {
               clearable: true
