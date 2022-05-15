@@ -56,6 +56,7 @@ class FenXiang(CoreModel):
     xiangmu = models.ForeignKey(XiangMu, on_delete=models.CASCADE)
     danxiang = models.ForeignKey(DanXiang, on_delete=models.CASCADE)
     danwei = models.ForeignKey(DanWei, on_delete=models.CASCADE)
+    fenbu = models.ForeignKey(FenBu, on_delete=models.CASCADE)
 
 
 # 图片
