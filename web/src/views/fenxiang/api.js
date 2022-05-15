@@ -14,7 +14,7 @@ export const urlPrefix = '/sche/fenxiang/'
 /**
  * 列表查询
  */
-export function GetList(query) {
+export function GetList (query) {
   query.limit = 999
   return request({
     url: urlPrefix,
@@ -33,7 +33,7 @@ export function GetList(query) {
 /**
  * 新增
  */
-export function createObj(obj) {
+export function createObj (obj) {
   console.log('createObj', obj)
   return request({
     url: urlPrefix,
@@ -45,7 +45,7 @@ export function createObj(obj) {
 /**
  * 修改
  */
-export function UpdateObj(obj) {
+export function UpdateObj (obj) {
   return request({
     url: urlPrefix + obj.id + '/',
     method: 'put',
@@ -56,10 +56,10 @@ export function UpdateObj(obj) {
 /**
  * 删除
  */
-export function DelObj(id) {
+export function DelObj (id) {
   return request({
     url: urlPrefix + id + '/',
     method: 'delete',
-    data: {id}
+    data: { id }
   })
 }

@@ -42,42 +42,41 @@
 import * as api from './api'
 import {crudOptions} from './crud'
 import {d2CrudPlus} from 'd2-crud-plus'
-import {request} from '@/api/service'
 
 export default {
   name: 'danxiang',
   mixins: [d2CrudPlus.crud],
-  data() {
+  data () {
     return {}
   },
   methods: {
-    getCrudOptions() {
+    getCrudOptions () {
       return crudOptions(this)
     },
-    pageRequest(query) {
+    pageRequest (query) {
       return api.GetList(query)
     },
-    addRequest(row) {
+    addRequest (row) {
       console.log('addRequest', row)
       d2CrudPlus.util.dict.clear()
       return api.createObj(row)
     },
-    updateRequest(row) {
+    updateRequest (row) {
       d2CrudPlus.util.dict.clear()
       return api.UpdateObj(row)
     },
-    delRequest(row) {
+    delRequest (row) {
       return api.DelObj(row.id)
     },
     // 授权
-    createPermission(scope) {
+    createPermission (scope) {
       this.$router.push({
         name: 'menuButton',
-        params: {id: scope.row.id},
-        query: {name: scope.row.name}
+        params: { id: scope.row.id },
+        query: { name: scope.row.name }
       })
     },
-    detail({index, row}) {
+    detail ({ index, row }) {
       const that = this
       console.log('这里是个方法码', row.tree, that.dialogVisible)
       // TODO:根据row显示不同表单  123单株   4 5 古树群

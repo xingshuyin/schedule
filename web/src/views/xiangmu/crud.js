@@ -1,9 +1,3 @@
-import {request} from '@/api/service'
-import {BUTTON_STATUS_BOOL} from '@/config/button'
-import {urlPrefix as deptPrefix, addColumn} from './api'
-import XEUtils from 'xe-utils'
-import util from '@/libs/util'
-
 export const crudOptions = (vm) => {
   return {
     pagination: { // 翻页配置
@@ -41,7 +35,7 @@ export const crudOptions = (vm) => {
       // border: true,
       highlightCurrentRow: false,
       defaultExpandAll: true,
-      cellStyle({row, column, rowIndex, columnIndex}) {
+      cellStyle ({ row, column, rowIndex, columnIndex }) {
         // 列表单元格样式
         return {
           'white-space': 'nowrap',
@@ -58,7 +52,7 @@ export const crudOptions = (vm) => {
         show: false,
         thin: true,
         text: '',
-        disabled() {
+        disabled () {
           return !vm.hasPermissions('Retrieve')
         }
       },
@@ -66,19 +60,19 @@ export const crudOptions = (vm) => {
         show: true,
         thin: true,
         text: '',
-        disabled() {
+        disabled () {
           true
         }
       },
       remove: {
         thin: true,
         text: '',
-        disabled() {
+        disabled () {
           return !vm.hasPermissions('Delete')
         }
       },
       custom: [
-        {icon: '', thin: true, text: '查看', emit: 'detail', size: 'small'}
+        { icon: '', thin: true, text: '查看', emit: 'detail', size: 'small' }
       ]
     },
     indexRow: false,
@@ -110,7 +104,7 @@ export const crudOptions = (vm) => {
           }
         },
         form: {},
-        valueBuilder(row, key) {
+        valueBuilder (row, key) {
           // 传入数据时执行
         }
         // disabled: true , // 是否在列表中显示
@@ -129,7 +123,7 @@ export const crudOptions = (vm) => {
           }
         },
         form: {},
-        valueBuilder(row, key) {
+        valueBuilder (row, key) {
           // 传入数据时执行
         }
         // disabled: true , // 是否在列表中显示
@@ -148,7 +142,7 @@ export const crudOptions = (vm) => {
           }
         },
         form: {},
-        valueBuilder(row, key) {
+        valueBuilder (row, key) {
           // 传入数据时执行
         }
         // disabled: true , // 是否在列表中显示
@@ -167,7 +161,7 @@ export const crudOptions = (vm) => {
           }
         },
         form: {},
-        valueBuilder(row, key) {
+        valueBuilder (row, key) {
           // 传入数据时执行
         }
         // disabled: true , // 是否在列表中显示
@@ -186,7 +180,7 @@ export const crudOptions = (vm) => {
           }
         },
         form: {},
-        valueBuilder(row, key) {
+        valueBuilder (row, key) {
           // 传入数据时执行
         }
         // disabled: true , // 是否在列表中显示

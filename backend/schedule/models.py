@@ -15,23 +15,27 @@ class XiangMu(CoreModel):
         ...
 
 
-# 分项工程->单位工程 独立设计
-class DanWei(CoreModel):
-    name = models.CharField(max_length=200, verbose_name='单位工程名')
-    pre = models.ForeignKey('self', on_delete=models.SET_NULL, null=True, blank=True)
-    xiangmu = models.ForeignKey(XiangMu, on_delete=models.CASCADE)
-    during = models.JSONField()
-    len = models.IntegerField(verbose_name='时长')
-
-
-# 分部工程->单项工程(独立施工)
+# 单项工程(独立施工)
 class DanXiang(CoreModel):
     name = models.CharField(max_length=200, verbose_name='分部工程名')
     pre = models.ForeignKey('self', on_delete=models.SET_NULL, null=True, blank=True)
     during = models.JSONField()
     len = models.IntegerField()
     xiangmu = models.ForeignKey(XiangMu, on_delete=models.CASCADE)
-    danwei = models.ForeignKey(DanWei, on_delete=models.CASCADE)
+    # danwei = models.ForeignKey(DanWei, on_delete=models.CASCADE)
+
+
+# 分项工程->单位工程 独立设计
+class DanWei(CoreModel):
+    name = models.CharField(max_length=200, verbose_name='单位工程名')
+    pre = models.ForeignKey('self', on_delete=models.SET_NULL, null=True, blank=True)
+    xiangmu = models.ForeignKey(XiangMu, on_delete=models.CASCADE)
+    danxiang = models.ForeignKey(DanXiang, on_delete=models.CASCADE)
+    during = models.JSONField()
+    len = models.IntegerField(verbose_name='时长')
+
+
+
 
 
 # 分部工程 new
