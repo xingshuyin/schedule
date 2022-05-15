@@ -137,7 +137,7 @@ class FenBu_view(CustomModelViewSet):
 
 class FenXiang_ser(CustomModelSerializer):
     class Meta:
-        model = DanXiang
+        model = FenXiang
         fields = "__all__"
         read_only_fields = ['id']
 
@@ -150,6 +150,7 @@ class FenXiang_view(CustomModelViewSet):
 
     def list(self, request, *args, **kwargs):
         queryset = self.get_queryset()
+        print(queryset)
         filter_dict = request.GET.dict()
         for i in ['page', 'limit']:
             if i in filter_dict.keys():
@@ -195,6 +196,7 @@ class Material_view(CustomModelViewSet):
         return SuccessResponse(data=serializer.data, msg="获取成功")
 
 
+
 class MaterialIn_ser(CustomModelSerializer):
     class Meta:
         model = MaterialIn
@@ -224,6 +226,15 @@ class MaterialIn_view(CustomModelViewSet):
         serializer = self.get_serializer(queryset, many=True, request=request)
         return SuccessResponse(data=serializer.data, msg="获取成功")
 
+    def create(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data, request=request)
+        serializer.is_valid(raise_exception=True)
+        self.perform_create(serializer)
+        material = Material.objects.get(id=serializer.data['material'])
+        print(material)
+        material.quantity += int(serializer.data['quantity'])
+        material.save()
+        return DetailResponse(data=serializer.data, msg="新增成功")
 
 class MaterialOut_ser(CustomModelSerializer):
     class Meta:
@@ -253,3 +264,14 @@ class MaterialOut_view(CustomModelViewSet):
             return SuccessResponse(data=serializer.data, msg="获取成功")
         serializer = self.get_serializer(queryset, many=True, request=request)
         return SuccessResponse(data=serializer.data, msg="获取成功")
+
+    def create(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data, request=request)
+        serializer.is_valid(raise_exception=True)
+        self.perform_create(serializer)
+        material = Material.objects.get(id=serializer.data['material'])
+        print(material)
+        print(serializer.data)
+        material.quantity -= int(serializer.data['quantity'])
+        material.save()
+        return DetailResponse(data=serializer.data, msg="新增成功")

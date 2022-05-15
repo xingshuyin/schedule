@@ -235,7 +235,7 @@ export const crudOptions = (vm) => {
               clearable: true
               // size: 'mini'
             },
-            rules: [{required: true, message: '分部工程不能为空'}]
+            rules: [{required: true, message: '单位工程不能为空'}]
           },
           valueChange(key, value, form, {getColumn, mode, component, immediate, getComponent}) {
             return request({
@@ -376,7 +376,7 @@ export const crudOptions = (vm) => {
       },
       {
         title: '分项工程',
-        key: 'fenbu',
+        key: 'fenxiang',
         sortable: true,
         type: 'select',
         search: {
@@ -397,7 +397,7 @@ export const crudOptions = (vm) => {
               clearable: true
               // size: 'mini'
             },
-            rules: [{required: true, message: '分部工程不能为空'}]
+            rules: [{required: true, message: '分项工程不能为空'}]
           }
         },
         dict: {
@@ -416,6 +416,34 @@ export const crudOptions = (vm) => {
           label: 'name'
         }
 
+        // disabled: true , // 是否在列表中显示
+      },
+      {
+        title: '领料人',
+        key: 'people',
+        sortable: true,
+        // type: 'select',
+        search: {
+          disabled: true,
+          component: {
+            props: {
+              clearable: true
+              // size: 'mini'
+            }
+          }
+        },
+        form: {
+          component: {
+            show: true, // 是否在新增表单显示
+            span: 12,
+            disabled: false,
+            props: {
+              clearable: true
+              // size: 'mini'
+            },
+            rules: [{required: false, message: ''}]
+          }
+        }
         // disabled: true , // 是否在列表中显示
       },
       {

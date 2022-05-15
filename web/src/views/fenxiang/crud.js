@@ -375,6 +375,48 @@ export const crudOptions = (vm) => {
         form: {}
         // disabled: true , // 是否在列表中显示
       },
+      {
+        title: '开始/结束时间',
+        key: 'during',
+        sortable: true,
+        type: 'daterange',
+        search: {
+          disabled: true
+        },
+        form: {
+          component: {
+            'value-format': 'yyyy-MM-dd'
+          },
+          valueChange(
+            key,
+            value,
+            form,
+            {getColumn, mode, component, immediate, getComponent}
+          ) {
+            console.log(value)
+            if (value[0] && value[1]) {
+              const start = new Date(value[0])
+              const end = new Date(value[1])
+              // console.log();
+              form.len = parseInt((end - start) / (1000 * 60 * 60 * 24))
+            }
+            // form表单数据change事件，表单值有改动将触发此事件
+          }
+        }
+        // disabled: true , // 是否在列表中显示
+
+      },
+      {
+        title: '时长',
+        key: 'len',
+        sortable: true,
+        // type: 'select',
+        search: {
+          disabled: true
+        },
+        form: {}
+        // disabled: true , // 是否在列表中显示
+      },
       //       {
       //   title: '提前插入时长',
       //   key: 'charu',

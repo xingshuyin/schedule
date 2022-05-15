@@ -48,6 +48,8 @@ class FenBu(CoreModel):
 # 施工工序->fenxiang
 class FenXiang(CoreModel):
     name = models.CharField(max_length=200, verbose_name='分项工程名')
+    during = models.JSONField()
+    len = models.IntegerField(verbose_name='时长')
     quantity = models.IntegerField(verbose_name='工程量')
     price = models.IntegerField(verbose_name="单价")
     earn = models.IntegerField(verbose_name='产值')
@@ -74,19 +76,23 @@ class Material(models.Model):
 
 # 材料入库记录-模型
 class MaterialIn(models.Model):
-    quantity = models.IntegerField(verbose_name='入库数量')
     xiangmu = models.ForeignKey(XiangMu, on_delete=models.SET_NULL, null=True)
-    danwei = models.ForeignKey(DanWei, on_delete=models.SET_NULL, null=True)
-    danxiang = models.ForeignKey(DanXiang, on_delete=models.SET_NULL, null=True)
+    material = models.ForeignKey(Material, on_delete=models.CASCADE)
+    quantity = models.IntegerField(verbose_name='入库数量')
+    gongying = models.CharField(max_length=100, verbose_name='供应商', null=True, blank=True)
     unit = models.CharField(max_length=20, verbose_name='单位')
 
 
 # 材料出库记录-模型
 class MaterialOut(models.Model):
     material = models.ForeignKey(Material, on_delete=models.CASCADE)
+    quantity = models.IntegerField(verbose_name='出库数量')
     xiangmu = models.ForeignKey(XiangMu, on_delete=models.SET_NULL, null=True)
     danwei = models.ForeignKey(DanWei, on_delete=models.SET_NULL, null=True)
     danxiang = models.ForeignKey(DanXiang, on_delete=models.SET_NULL, null=True)
+    fenbu = models.ForeignKey(FenBu, on_delete=models.CASCADE, null=True)
+    fenxiang = models.ForeignKey(FenXiang, on_delete=models.CASCADE, null=True)
+    people = models.CharField(max_length=100, verbose_name='领料人', null=True)
     unit = models.CharField(max_length=20, verbose_name='单位')
 
 # class User(Users):
