@@ -1,6 +1,6 @@
-import {request} from '@/api/service'
-import {BUTTON_STATUS_BOOL} from '@/config/button'
-import {urlPrefix as deptPrefix, addColumn} from './api'
+import { request } from '@/api/service'
+import { BUTTON_STATUS_BOOL } from '@/config/button'
+import { urlPrefix as deptPrefix, addColumn } from './api'
 import XEUtils from 'xe-utils'
 import util from '@/libs/util'
 
@@ -41,7 +41,7 @@ export const crudOptions = (vm) => {
       // border: true,
       highlightCurrentRow: false,
       defaultExpandAll: true,
-      cellStyle({row, column, rowIndex, columnIndex}) {
+      cellStyle ({ row, column, rowIndex, columnIndex }) {
         // 列表单元格样式
         return {
           'white-space': 'nowrap',
@@ -58,7 +58,7 @@ export const crudOptions = (vm) => {
         show: true,
         thin: true,
         text: '',
-        disabled() {
+        disabled () {
           return !vm.hasPermissions('Retrieve')
         }
       },
@@ -66,14 +66,14 @@ export const crudOptions = (vm) => {
         show: true,
         thin: true,
         text: '',
-        disabled() {
+        disabled () {
           true
         }
       },
       remove: {
         thin: true,
         text: '',
-        disabled() {
+        disabled () {
           return !vm.hasPermissions('Delete')
         }
       },
@@ -117,13 +117,13 @@ export const crudOptions = (vm) => {
               clearable: true
               // size: 'mini'
             },
-            rules: [{required: true, message: '材料名称不能为空'}]
+            rules: [{ required: true, message: '材料名称不能为空' }]
           },
-          valueChange(
+          valueChange (
             key,
             value,
             form,
-            {getColumn, mode, component, immediate, getComponent}
+            { getColumn, mode, component, immediate, getComponent }
           ) {
             request({
               url: '/sche/data/' + value + '/unit/',
@@ -136,7 +136,7 @@ export const crudOptions = (vm) => {
           }
         },
         dict: {
-          getData() {
+          getData (url, dict, { form, component }) {
             return request({
               url: '/sche/data/material/',
               method: 'get',
@@ -176,94 +176,30 @@ export const crudOptions = (vm) => {
               clearable: true
               // size: 'mini'
             },
-            rules: [{required: true, message: '施工段不能为空'}]
+            rules: [{ required: true, message: '施工段不能为空' }]
           },
-          valueChange(key, value, form, {getColumn, mode, component, immediate, getComponent}) {
-            return request({
-              url: '/sche/data/' + value + '/danwei/',
-              method: 'get',
-              data: {}
-            }).then((res) => {
-              // 非IE下载
-              getColumn('danwei').component.props.options = res
-              // getColumn('pre').component.props.options = res
-              console.log(res, form, getComponent)
-            })
+          valueChange (key, value, form, { getColumn, mode, component, immediate, getComponent }) {
+            getColumn('danxiang').component.props.dict.url = '/sche/data/' + value + '/danxiang/'
           }
         },
         dict: {
-          getData() {
+          getData (url, dict, { form, component }) {
             return request({
-              url: '/sche/data/xiangmu/',
+              url: url,
               method: 'get',
               data: {}
             }).then((res) => {
-              // 非IE下载
-              console.log(res)
               return res
             })
           },
+          url: '/sche/data/xiangmu/',
           value: 'id',
           label: 'name'
         },
-        valueBuilder(row, key) {
+        valueBuilder (row, key) {
           // 传入数据时执行
           // row.area = row.county_code.substring(0, 7)
         }
-        // disabled: true , // 是否在列表中显示
-      },
-      {
-        title: '单位工程',
-        key: 'danwei',
-        sortable: true,
-        type: 'select',
-        search: {
-          disabled: false,
-          component: {
-            props: {
-              clearable: true
-              // size: 'mini'
-            }
-          }
-        },
-        form: {
-          component: {
-            show: true, // 是否在新增表单显示
-            span: 12,
-            disabled: false,
-            props: {
-              clearable: true
-              // size: 'mini'
-            },
-            rules: [{required: true, message: '单位工程不能为空'}]
-          },
-          valueChange(key, value, form, {getColumn, mode, component, immediate, getComponent}) {
-            return request({
-              url: '/sche/data/' + value + '/danxiang/',
-              method: 'get',
-              data: {}
-            }).then((res) => {
-              // 非IE下载
-              getColumn('danxiang').component.props.options = res
-            })
-          }
-        },
-        dict: {
-          getData() {
-            return request({
-              url: '/sche/data/0/danwei/',
-              method: 'get',
-              data: {}
-            }).then((res) => {
-              // 非IE下载
-              console.log(res)
-              return res
-            })
-          },
-          value: 'id',
-          label: 'name'
-        }
-
         // disabled: true , // 是否在列表中显示
       },
       {
@@ -289,37 +225,76 @@ export const crudOptions = (vm) => {
               clearable: true
               // size: 'mini'
             },
-            rules: [{required: true, message: '分部工程不能为空'}]
+            rules: [{ required: true, message: '分部工程不能为空' }]
           },
-          valueChange(key, value, form, {getColumn, mode, component, immediate, getComponent}) {
-            return request({
-              url: '/sche/data/' + value + '/fenbu/',
-              method: 'get',
-              data: {}
-            }).then((res) => {
-              // 非IE下载
-              getColumn('fenbu').component.props.options = res
-            })
+          valueChange (key, value, form, { getColumn, mode, component, immediate, getComponent }) {
+            getColumn('danwei').component.props.dict.url = '/sche/data/' + value + '/danwei/'
           }
         },
         dict: {
-          getData() {
+          getData (url, dict, { form, component }) {
             return request({
-              url: '/sche/data/0/danxiang/',
+              url: url,
               method: 'get',
               data: {}
             }).then((res) => {
-              // 非IE下载
-              console.log(res)
               return res
             })
           },
+          url: '/sche/data/0/danxiang/',
           value: 'id',
           label: 'name'
         }
 
         // disabled: true , // 是否在列表中显示
       },
+      {
+        title: '单位工程',
+        key: 'danwei',
+        sortable: true,
+        type: 'select',
+        search: {
+          disabled: false,
+          component: {
+            props: {
+              clearable: true
+              // size: 'mini'
+            }
+          }
+        },
+        form: {
+          component: {
+            show: true, // 是否在新增表单显示
+            span: 12,
+            disabled: false,
+            props: {
+              clearable: true
+              // size: 'mini'
+            },
+            rules: [{ required: true, message: '单位工程不能为空' }]
+          },
+          valueChange (key, value, form, { getColumn, mode, component, immediate, getComponent }) {
+            getColumn('fenbu').component.props.dict.url = '/sche/data/' + value + '/fenbu/'
+          }
+        },
+        dict: {
+          getData (url, dict, { form, component }) {
+            return request({
+              url: url,
+              method: 'get',
+              data: {}
+            }).then((res) => {
+              return res
+            })
+          },
+          url: '/sche/data/0/danwei/',
+          value: 'id',
+          label: 'name'
+        }
+
+        // disabled: true , // 是否在列表中显示
+      },
+
       {
         title: '分部工程',
         key: 'fenbu',
@@ -343,31 +318,23 @@ export const crudOptions = (vm) => {
               clearable: true
               // size: 'mini'
             },
-            rules: [{required: true, message: '分部工程不能为空'}]
+            rules: [{ required: true, message: '分部工程不能为空' }]
           },
-          valueChange(key, value, form, {getColumn, mode, component, immediate, getComponent}) {
-            return request({
-              url: '/sche/data/' + value + '/fenxiang/',
-              method: 'get',
-              data: {}
-            }).then((res) => {
-              // 非IE下载
-              getColumn('fenxiang').component.props.options = res
-            })
+          valueChange (key, value, form, { getColumn, mode, component, immediate, getComponent }) {
+            getColumn('fenxiang').component.props.dict.url = '/sche/data/' + value + '/fenxiang/'
           }
         },
         dict: {
-          getData() {
+          getData (url, dict, { form, component }) {
             return request({
-              url: '/sche/data/0/fenbu/',
+              url: url,
               method: 'get',
               data: {}
             }).then((res) => {
-              // 非IE下载
-              console.log(res)
               return res
             })
           },
+          url: '/sche/data/0/fenbu/',
           value: 'id',
           label: 'name'
         }
@@ -397,21 +364,20 @@ export const crudOptions = (vm) => {
               clearable: true
               // size: 'mini'
             },
-            rules: [{required: true, message: '分项工程不能为空'}]
+            rules: [{ required: true, message: '分项工程不能为空' }]
           }
         },
         dict: {
-          getData() {
+          getData (url, dict, { form, component }) {
             return request({
-              url: '/sche/data/0/fenxiang/',
+              url: url,
               method: 'get',
               data: {}
             }).then((res) => {
-              // 非IE下载
-              console.log(res)
               return res
             })
           },
+          url: '/sche/data/0/fenxiang/',
           value: 'id',
           label: 'name'
         }
@@ -441,7 +407,7 @@ export const crudOptions = (vm) => {
               clearable: true
               // size: 'mini'
             },
-            rules: [{required: false, message: ''}]
+            rules: [{ required: false, message: '' }]
           }
         }
         // disabled: true , // 是否在列表中显示
@@ -469,7 +435,7 @@ export const crudOptions = (vm) => {
               clearable: true
               // size: 'mini'
             },
-            rules: [{required: true, message: '数量不能为空'}]
+            rules: [{ required: true, message: '数量不能为空' }]
           }
         }
         // disabled: true , // 是否在列表中显示
@@ -497,7 +463,7 @@ export const crudOptions = (vm) => {
               clearable: true
               // size: 'mini'
             },
-            rules: [{required: true, message: '单位不能为空'}]
+            rules: [{ required: true, message: '单位不能为空' }]
           }
         }
         // disabled: true , // 是否在列表中显示

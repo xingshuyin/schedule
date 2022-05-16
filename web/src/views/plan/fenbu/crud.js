@@ -114,39 +114,25 @@ export const crudOptions = (vm) => {
               clearable: true
               // size: 'mini'
             },
-            rules: [{ required: true, message: '施工段不能为空' }]
+            rules: [{ required: true, message: '项目不能为空' }]
           },
           valueChange (key, value, form, { getColumn, mode, component, immediate, getComponent }) {
-            return request({
-              url: '/sche/data/' + value + '/danwei/',
-              method: 'get',
-              data: {}
-            }).then((res) => {
-              // 非IE下载
-              getColumn('danwei').component.props.options = res
-              // getColumn('pre').component.props.options = res
-              console.log(res, form, getComponent)
-            })
+            getColumn('danxiang').component.props.dict.url = '/sche/data/' + value + '/danxiang/'
           }
         },
         dict: {
-          getData () {
+          getData (url, dict, { form, component }) {
             return request({
-              url: '/sche/data/xiangmu/',
+              url: url,
               method: 'get',
               data: {}
             }).then((res) => {
-              // 非IE下载
-              console.log(res)
               return res
             })
           },
+          url: '/sche/data/xiangmu/',
           value: 'id',
           label: 'name'
-        },
-        valueBuilder (row, key) {
-          // 传入数据时执行
-          // row.area = row.county_code.substring(0, 7)
         }
         // disabled: true , // 是否在列表中显示
       },
@@ -173,31 +159,23 @@ export const crudOptions = (vm) => {
               clearable: true
               // size: 'mini'
             },
-            rules: [{ required: true, message: '分部工程不能为空' }]
+            rules: [{ required: true, message: '单部工程不能为空' }]
           },
           valueChange (key, value, form, { getColumn, mode, component, immediate, getComponent }) {
-            return request({
-              url: '/sche/data/' + value + '/fenbu/',
-              method: 'get',
-              data: {}
-            }).then((res) => {
-              // 非IE下载
-              getColumn('pre').component.props.options = res
-            })
+            getColumn('danwei').component.props.dict.url = '/sche/data/' + value + '/danwei/'
           }
         },
         dict: {
-          getData () {
+          getData (url, dict, { form, component }) {
             return request({
-              url: '/sche/data/0/danxiang/',
+              url: url,
               method: 'get',
               data: {}
             }).then((res) => {
-              // 非IE下载
-              console.log(res)
               return res
             })
           },
+          url: '/sche/data/0/danxiang/',
           value: 'id',
           label: 'name'
         }
@@ -230,28 +208,20 @@ export const crudOptions = (vm) => {
             rules: [{ required: true, message: '分部工程不能为空' }]
           },
           valueChange (key, value, form, { getColumn, mode, component, immediate, getComponent }) {
-            return request({
-              url: '/sche/data/' + value + '/danxiang/',
-              method: 'get',
-              data: {}
-            }).then((res) => {
-              // 非IE下载
-              getColumn('danxiang').component.props.options = res
-            })
+            getColumn('pre').component.props.dict.url = '/sche/data/' + value + '/fenbu/'
           }
         },
         dict: {
-          getData () {
+          getData (url, dict, { form, component }) {
             return request({
-              url: '/sche/data/0/danwei/',
+              url: url,
               method: 'get',
               data: {}
             }).then((res) => {
-              // 非IE下载
-              console.log(res)
               return res
             })
           },
+          url: '/sche/data/0/danwei/',
           value: 'id',
           label: 'name'
         }
@@ -286,23 +256,18 @@ export const crudOptions = (vm) => {
           }
         },
         dict: {
-          getData () {
+          getData (url, dict, { form, component }) {
             return request({
-              url: '/sche/data/0/fenbu/',
+              url: url,
               method: 'get',
               data: {}
             }).then((res) => {
-              // 非IE下载
-              console.log(res)
               return res
             })
           },
+          url: '/sche/data/0/fenbu/',
           value: 'id',
           label: 'name'
-        },
-        valueBuilder (row, key) {
-          // 传入数据时执行
-          // row.area = row.county_code.substring(0, 7)
         }
         // disabled: true , // 是否在列表中显示
       },

@@ -40,13 +40,13 @@ class FenBu(CoreModel):
     name = models.CharField(max_length=200, verbose_name='分部工程名')
     pre = models.ForeignKey('self', on_delete=models.SET_NULL, null=True, blank=True)
     xiangmu = models.ForeignKey(XiangMu, on_delete=models.CASCADE)
-    danwei = models.ForeignKey(DanWei, on_delete=models.CASCADE)
     danxiang = models.ForeignKey(DanXiang, on_delete=models.CASCADE)
+    danwei = models.ForeignKey(DanWei, on_delete=models.CASCADE)
     during = models.JSONField()
     len = models.IntegerField(verbose_name='时长')
 
 
-# fenxiang
+# 分项工程
 class FenXiang(CoreModel):
     name = models.CharField(max_length=200, verbose_name='分项工程名')
     during = models.JSONField()
@@ -96,7 +96,12 @@ class MaterialOut(models.Model):
     people = models.CharField(max_length=100, verbose_name='领料人', null=True)
     unit = models.CharField(max_length=20, verbose_name='单位')
 
-# class User(Users):
-#     xiangmu = models.ForeignKey(XiangMu, on_delete=models.SET_NULL, null=True)
-#     danwei = models.ForeignKey(DanWei, on_delete=models.SET_NULL, null=True)
-#     danxaing = models.ForeignKey(DanXiang, on_delete=models.SET_NULL, null=True)
+
+class User(models.Model):
+    name = models.CharField(max_length=100, verbose_name='姓名')
+    phone = models.CharField(max_length=11, verbose_name='手机号')
+    gender = models.IntegerField(choices=((1,'男'),(2,'女')), verbose_name='性别')
+    danwei = models.ForeignKey(DanWei, on_delete=models.SET_NULL, null=True)
+    danxiang = models.ForeignKey(DanXiang, on_delete=models.SET_NULL, null=True)
+    fenbu = models.ForeignKey(FenBu, on_delete=models.CASCADE, null=True)
+    fenxiang = models.ForeignKey(FenXiang, on_delete=models.CASCADE, null=True)

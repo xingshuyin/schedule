@@ -133,30 +133,20 @@ export const crudOptions = (vm) => {
             rules: [{ required: true, message: '项目不能为空' }]
           },
           valueChange (key, value, form, { getColumn, mode, component, immediate, getComponent }) {
-            return request({
-              url: '/sche/data/' + value + '/danxiang/',
-              method: 'get',
-              data: {}
-            }).then((res) => {
-              // 非IE下载
-              // getColumn('danxaing').component.props.options = res
-              getColumn('danxiang').component.props.options = res
-              console.log(res, form, getComponent)
-            })
+            getColumn('danxiang').component.props.dict.url = '/sche/data/' + value + '/danxiang/'
           }
         },
         dict: {
-          getData () {
+          getData (url, dict, { form, component }) {
             return request({
-              url: '/sche/data/xiangmu/',
+              url: url,
               method: 'get',
               data: {}
             }).then((res) => {
-              // 非IE下载
-              console.log(res)
               return res
             })
           },
+          url: '/sche/data/xiangmu/',
           value: 'id',
           label: 'name'
         }
@@ -187,79 +177,71 @@ export const crudOptions = (vm) => {
               // size: 'mini'
             },
             rules: [{ required: true, message: '分部工程不能为空' }]
-          },
-          valueChange (key, value, form, { getColumn, mode, component, immediate, getComponent }) {
-            return request({
-              url: '/sche/data/' + value + '/danwei/',
-              method: 'get',
-              data: {}
-            }).then((res) => {
-              // 非IE下载
-              getColumn('pre').component.props.options = res
-            })
           }
         },
         dict: {
-          getData () {
+          getData (url, dict, { form, component }) {
             return request({
-              url: '/sche/data/0/danxiang/',
+              url: url,
               method: 'get',
               data: {}
             }).then((res) => {
-              // 非IE下载
-              console.log(res)
               return res
             })
           },
+          url: '/sche/data/0/danxiang/',
           value: 'id',
           label: 'name'
         }
 
         // disabled: true , // 是否在列表中显示
       },
-      {
-        title: '紧前工作',
-        key: 'pre',
-        sortable: true,
-        type: 'select',
-        search: {
-          disabled: true,
-          component: {
-            props: {
-              clearable: true
-              // size: 'mini'
-            }
-          }
-        },
-        form: {
-          component: {
-            show: false, // 是否在新增表单显示
-            span: 12,
-            disabled: false,
-            props: {
-              clearable: true
-              // size: 'mini'
-            },
-            rules: [{ required: false, message: '施工段不能为空' }]
-          }
-        },
-        dict: {
-          getData () {
-            return request({
-              url: '/sche/data/0/danwei/',
-              method: 'get',
-              data: {}
-            }).then((res) => {
-              // 非IE下载
-              console.log(res)
-              return res
-            })
-          },
-          value: 'id',
-          label: 'name'
-        },
-        disabled: true // 是否在列表中显示
-      },
+      // {
+      //   title: '紧前工作',
+      //   key: 'pre',
+      //   sortable: true,
+      //   type: 'select',
+      //   search: {
+      //     disabled: true,
+      //     component: {
+      //       props: {
+      //         clearable: true
+      //         // size: 'mini'
+      //       }
+      //     }
+      //   },
+      //   form: {
+      //     component: {
+      //       show: false, // 是否在新增表单显示
+      //       span: 12,
+      //       disabled: false,
+      //       props: {
+      //         clearable: true
+      //         // size: 'mini'
+      //       },
+      //       rules: [{ required: false, message: '施工段不能为空' }]
+      //     }
+      //   },
+      //   dict: {
+      //     getData (url, dict, { form, component }) {
+      //       if (form.danxiang) {
+      //         return request({
+      //           url: '/sche/data/' + form.danxiang + '/danwei/',
+      //           method: 'get',
+      //           data: {}
+      //         }).then((res) => {
+      //           console.log(res)
+      //           return res
+      //         })
+      //       } else {
+      //         return []
+      //       }
+      //     },
+      //     value: 'id',
+      //     label: 'name'
+      //   },
+      //   disabled: true // 是否在列表中显示
+      // },
       {
         title: '开始/结束时间',
         key: 'during',
@@ -287,14 +269,8 @@ export const crudOptions = (vm) => {
             }
             // form表单数据change事件，表单值有改动将触发此事件
           }
-        },
-        // disabled: true , // 是否在列表中显示
-        valueBuilder (row, key) {
-          // 传入数据时执行
-        },
-        valueResolve (row, key) {
-          // 传出数据时执行
         }
+        // disabled: true , // 是否在列表中显示
       },
       {
         title: '时长',

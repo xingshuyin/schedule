@@ -37,16 +37,6 @@ class DataView(viewsets.ViewSet):
         ser = DataXiangMuSer(xiangmu, many=True)
         return JsonResponse(ser.data, safe=False)
 
-    @action(['get'], detail=True, url_path='danwei', url_name='danwei', permission_classes=[])
-    def GetDanWeiAll(self, request, pk):
-        if pk == '0':
-            danwei = DanWei.objects.all().values('id', 'name')
-            ser = DataDanWeiSer(danwei, many=True)
-            return JsonResponse(ser.data, safe=False)
-        xiangmu = XiangMu.objects.get(pk=pk)
-        danwei = DanWei.objects.filter(xiangmu=xiangmu).values('id', 'name')
-        ser = DataDanWeiSer(danwei, many=True)
-        return JsonResponse(ser.data, safe=False)
 
     @action(['get'], detail=True, url_path='danxiang', url_name='danxiang', permission_classes=[])
     def GetDanXiangAll(self, request, pk):
@@ -54,10 +44,23 @@ class DataView(viewsets.ViewSet):
             danxiang = DanXiang.objects.all().values('id', 'name')
             ser = DataDanWeiSer(danxiang, many=True)
             return JsonResponse(ser.data, safe=False)
-        danwei = DanWei.objects.get(pk=pk)
-        danxiang = DanXiang.objects.filter(danwei=danwei).values('id', 'name')
+        xiangmu = XiangMu.objects.get(pk=pk)
+        danxiang = DanXiang.objects.filter(xiangmu=xiangmu).values('id', 'name')
         ser = DataDanXiangSer(danxiang, many=True)
         return JsonResponse(ser.data, safe=False)
+
+    @action(['get'], detail=True, url_path='danwei', url_name='danwei', permission_classes=[])
+    def GetDanWeiAll(self, request, pk):
+        if pk == '0':
+            danwei = DanWei.objects.all().values('id', 'name')
+            ser = DataDanWeiSer(danwei, many=True)
+            return JsonResponse(ser.data, safe=False)
+        danxiang = DanXiang.objects.get(pk=pk)
+        danwei = DanWei.objects.filter(danxiang=danxiang).values('id', 'name')
+        ser = DataDanWeiSer(danwei, many=True)
+        return JsonResponse(ser.data, safe=False)
+
+
 
     @action(['get'], detail=True, url_path='fenbu', url_name='fenbu', permission_classes=[])
     def GetFenBuAll(self, request, pk):
@@ -65,8 +68,8 @@ class DataView(viewsets.ViewSet):
             fenbu = FenBu.objects.all().values('id', 'name')
             ser = DataDanWeiSer(fenbu, many=True)
             return JsonResponse(ser.data, safe=False)
-        danxiang = DanXiang.objects.get(pk=pk)
-        fenbu = FenBu.objects.filter(danxiang=danxiang).values('id', 'name')
+        danwei = DanWei.objects.get(pk=pk)
+        fenbu = FenBu.objects.filter(danwei=danwei).values('id', 'name')
         ser = DataDanXiangSer(fenbu, many=True)
         return JsonResponse(ser.data, safe=False)
 
