@@ -1,19 +1,24 @@
 <template>
   <d2-container>
-    <div id="schedule" style="width: 100%; height: 100%" ></div>
+    <span v-for="danxiang in danxiangs" v-on:click="changedanxiang(danxiang['id'])">
+      <label>{{ danxiang['name'] }}<input type="radio" v-model="danxiang['id']" name="danxiang">&nbsp;&nbsp;</label>
+    </span>
+
+    <div id="schedule" style="width: 100%;"></div>
   </d2-container>
 </template>
 
 <script>
 
-import { use } from 'echarts/core'
-import { CanvasRenderer } from 'echarts/renderers'
-import { PieChart } from 'echarts/charts'
+import {use} from 'echarts/core'
+import {CanvasRenderer} from 'echarts/renderers'
+import {PieChart} from 'echarts/charts'
 import {
   TitleComponent,
   TooltipComponent,
   LegendComponent
 } from 'echarts/components'
+import {request} from "@/api/service";
 
 // use([
 //   CanvasRenderer,
@@ -23,391 +28,154 @@ import {
 //   LegendComponent
 // ])
 export default {
-  data () { return { chart: null } }, // 图表实例
-  mounted () { this.init() },
+  data() {
+    request({
+      url: '/sche/data/0/danxiang/',
+      method: 'get',
+      data: {}
+    }).then((res) => {
+      this.danxiangs = res  //TODO:没懂
+    })
+    return {
+      danxiangs: [],
+    }
+  }, // 图表实例
+  mounted() {
+    request({
+      url: '/sche/data/0/danxiang/',
+      method: 'get',
+      data: {}
+    }).then((res) => {
+      this.init(res[0]['id'])
+      // this.danxiangs = res  //TODO:没懂
+    })
+
+  }
+  ,
   methods: {
-    init () {
-      const myChart = this.$echarts.init(document.getElementById('schedule'))
+    changedanxiang(danxiang) {
+      this.init(danxiang)
+    }
+    ,
+
+    init(id) {
+
       // 绘制图表
-      var option = {
-        backgroundColor: '#fff',
-        title: {
-          text: '粤长辉龙岗德沁苑商住楼结构及粗装修工程',
-          padding: 20,
-          textStyle: {
-            fontSize: 17,
-            fontWeight: 'bolder',
-            color: '#333'
+
+      const data = request({
+        url: '/sche/data/' + id + '/chart/',
+        method: 'get',
+        data: {}
+      }).then((res) => {
+
+        console.log('data', res)
+        const ele = document.getElementById('schedule')
+        ele.style.height = res.count + 'px'
+        let myChart = this.$echarts.getInstanceByDom(ele)
+        if (!myChart) {
+          myChart = this.$echarts.init(ele)
+        }
+        const r_start = res.r_start
+        const r_end = res.r_end
+        const series_r = []
+        for (var i in r_end) {
+          console.log(i)
+          series_r.push({
+            name: '',
+            type: 'bar',
+            stack: i,
+            itemStyle: {
+              color: 'skyblue',
+              borderColor: '#c63131',
+              borderWidth: 0,
+              borderRadius: 2,
+            },
+            barWidth: 10,
+            zlevel: -1,
+            z: 1,
+            data: r_end[i]
+          })
+        }
+        for (var i in r_start) {
+          series_r.push({
+            name: '',
+            type: 'bar',
+            stack: i,
+            itemStyle: {
+              color: '#ffffff',
+              borderWidth: 0,
+              borderRadius: 2,
+            },
+            barWidth: 10,
+            zlevel: -1,
+            z: 2,
+            data: r_start[i]
+          })
+        }
+        console.log('series_r', series_r)
+        var option = {
+          backgroundColor: '#ffffff',
+          title: {
+            text: '粤长辉龙岗德沁苑商住楼结构及粗装修工程',
+            padding: 20,
+            textStyle: {
+              fontSize: 17,
+              fontWeight: 'bolder',
+              color: '#333'
+            },
+            subtextStyle: {
+              fontSize: 13,
+              fontWeight: 'bolder'
+            }
           },
-          subtextStyle: {
-            fontSize: 13,
-            fontWeight: 'bolder'
-          }
-        },
-        legend: {
-          data: [
-            '计划工期',
-            '地基与基础',
-            '地下室',
-            '主体结构',
-            '建筑装饰装修',
-            '建筑屋面'
-          ],
-          align: 'right',
-          right: 80,
-          top: 50
-        },
-        grid: {
-          containLabel: true,
-          show: false,
-          right: 130,
-          left: 40,
-          bottom: 40,
-          top: 90
-        },
-        xAxis: {
-          type: 'time',
-          axisLabel: {
-            show: true,
-            interval: 0
-          }
-        },
-        yAxis: {
-          axisLabel: {
-            show: true,
-            interval: 0,
-            formatter: function (value, index) {
-              var last = ''
-              var max = 5
-              var len = value.length
-              var hang = Math.ceil(len / max)
-              if (hang > 1) {
-                for (var i = 0; i < hang; i++) {
-                  var start = i * max
-                  var end = start + max
-                  var temp = value.substring(start, end) + '\n'
-                  last += temp // 凭借最终的字符串
-                }
-                return last
+          grid: {
+            containLabel: true,
+            show: false,
+            right: 130,
+            left: 40,
+            bottom: 40,
+            top: 90
+          },
+          xAxis: {
+            type: 'time',
+            axisLabel: {
+              show: true,
+              interval: 0
+            }
+          },
+          yAxis: {
+            type: 'category',
+            axisLabel: {
+              show: true,
+              interval: 0,
+            },
+            splitLine: {
+              show: true,
+              lineStyle: {
+                color: ['#2f0707','#3d0909'],
+                width: 1,
+              }
+            },
+            data: res.yAxis
+          },
+          tooltip: {
+            trigger: 'item',
+            formatter: function (params) {
+
+              if (params.data.hasOwnProperty("start")) {
+                return params.data.name + ' ' + params.data.start + '-' + params.data.value + '<br/>' + params.data.fx_id
               } else {
-                return value
+                return params.data.name + ' ' + params.data.value + '-' + params.data.end + '\n'
               }
+              // console.log(params)
+              // console.log(params.value[params.encode.y[0]])
             }
           },
-          data: ['一栋', '二栋', '三栋']
-        },
-        tooltip: {
-          trigger: 'axis',
-          formatter: function (params) {
-            var res = ''
-            var name = ''
-            var start0 = ''
-            var start = ''
-            var end0 = ''
-            var end = ''
-            for (var i in params) {
-              var k = i % 2
-              if (!k) {
-                // 偶数
-                start0 = params[i].data
-                console.log(start0)
-                start =
-                    start0.getFullYear() +
-                    '-' +
-                    (start0.getMonth() + 1) +
-                    '-' +
-                    start0.getDate()
-              }
-              if (k) {
-                // 奇数
-                name = params[i].seriesName
-                end0 = params[i].data
-                end =
-                    end0.getFullYear() +
-                    '-' +
-                    (end0.getMonth() + 1) +
-                    '-' +
-                    end0.getDate()
-                res += name + ' : ' + start + '~' + end + '</br>'
-              }
-            }
-            return res
-          }
-        },
-        series: [
-          {
-            name: '计划工期',
-            type: 'bar',
-            stack: '总量0',
-            label: {
-              normal: {
-                show: true,
-                color: '#000',
-                position: 'right',
-                formatter: function (params) {
-                  return params.seriesName
-                }
-              }
-            },
-            itemStyle: {
-              normal: {
-                color: 'skyblue',
-                borderColor: '#fff',
-                borderWidth: 2
-              }
-            },
-            zlevel: -1,
-            data: [
-              new Date('2018-05-01'),
-              new Date('2018-03-14'),
-              new Date('2018-05-01')
-            ]
-          },
-          {
-            name: '计划工期',
-            type: 'bar',
-            stack: '总量0',
-            itemStyle: {
-              normal: {
-                color: 'white'
-              }
-            },
-            zlevel: -1,
-            z: 3,
-            data: [
-              new Date('2018-01-01'),
-              new Date('2018-01-01'),
-              new Date('2018-03-15')
-            ]
-          },
-          {
-            name: '地基与基础',
-            type: 'bar',
-            stack: '总量2',
-            label: {
-              normal: {
-                show: true,
-                color: '#000',
-                position: 'right',
-                formatter: function (params) {
-                  return params.seriesName
-                }
-              }
-            },
-            itemStyle: {
-              normal: {
-                color: 'green',
-                borderColor: '#fff',
-                borderWidth: 2
-              }
-            },
-            zlevel: -1,
-            data: [
-              new Date('2018-01-10'),
-              new Date('2018-01-10'),
-              new Date('2018-03-30')
-            ]
-          },
-          {
-            name: '地基与基础',
-            type: 'bar',
-            stack: '总量2',
-            itemStyle: {
-              normal: {
-                color: 'white'
-              }
-            },
-            zlevel: -1,
-            z: 3,
-            data: [
-              new Date('2018-01-02'),
-              new Date('2018-01-02'),
-              new Date('2018-03-16')
-            ]
-          },
-          {
-            name: '地下室',
-            type: 'bar',
-            stack: '总量3',
-            label: {
-              normal: {
-                show: true,
-                color: '#000',
-                position: 'right',
-                formatter: function (params) {
-                  return params.seriesName
-                }
-              }
-            },
-            itemStyle: {
-              normal: {
-                color: 'red',
-                borderColor: '#fff',
-                borderWidth: 2
-              }
-            },
-            zlevel: -1,
-            data: [
-              new Date('2018-02-20'),
-              new Date('2018-01-20'),
-              new Date('2018-04-10')
-            ]
-          },
-          {
-            name: '地下室',
-            type: 'bar',
-            stack: '总量3',
-            itemStyle: {
-              normal: {
-                color: 'white'
-              }
-            },
-            zlevel: -1,
-            z: 3,
-            data: [
-              new Date('2018-02-01'),
-              new Date('2018-01-12'),
-              new Date('2018-04-01')
-            ]
-          },
-          {
-            name: '主体结构',
-            type: 'bar',
-            stack: '总量4',
-            label: {
-              normal: {
-                show: true,
-                color: '#000',
-                position: 'right',
-                formatter: function (params) {
-                  return params.seriesName
-                }
-              }
-            },
-            itemStyle: {
-              normal: {
-                color: 'brown',
-                borderColor: '#fff',
-                borderWidth: 2
-              }
-            },
-            zlevel: -1,
-            data: [
-              new Date('2018-03-09'),
-              new Date('2018-01-25'),
-              new Date('2018-04-20')
-            ]
-          },
-          {
-            name: '主体结构',
-            type: 'bar',
-            stack: '总量4',
-            itemStyle: {
-              normal: {
-                color: 'white'
-              }
-            },
-            zlevel: -1,
-            z: 3,
-            data: [
-              new Date('2018-02-25'),
-              new Date('2018-01-21'),
-              new Date('2018-04-11')
-            ]
-          },
-          {
-            name: '建筑装饰装修',
-            type: 'bar',
-            stack: '总量5',
-            label: {
-              normal: {
-                show: true,
-                color: '#000',
-                position: 'right',
-                formatter: function (params) {
-                  return params.seriesName
-                }
-              }
-            },
-            itemStyle: {
-              normal: {
-                color: 'yellow',
-                borderColor: '#fff',
-                borderWidth: 2
-              }
-            },
-            zlevel: -1,
-            data: [
-              new Date('2018-03-12'),
-              new Date('2018-02-15'),
-              new Date('2018-04-30')
-            ]
-          },
-          {
-            name: '建筑装饰装修',
-            type: 'bar',
-            stack: '总量5',
-            itemStyle: {
-              normal: {
-                color: 'white'
-              }
-            },
-            zlevel: -1,
-            z: 3,
-            data: [
-              new Date('2018-03-10'),
-              new Date('2018-01-26'),
-              new Date('2018-04-21')
-            ]
-          },
-          {
-            name: '建筑屋面',
-            type: 'bar',
-            stack: '总量6',
-            label: {
-              normal: {
-                show: true,
-                color: '#000',
-                position: 'right',
-                formatter: function (params) {
-                  return params.seriesName
-                }
-              }
-            },
-            itemStyle: {
-              normal: {
-                color: 'orange',
-                borderColor: '#fff',
-                borderWidth: 2
-              }
-            },
-            zlevel: -1,
-            data: [
-              new Date('2018-03-30'),
-              new Date('2018-03-13'),
-              new Date('2018-05-01')
-            ]
-          },
-          {
-            name: '建筑屋面',
-            type: 'bar',
-            stack: '总量6',
-            itemStyle: {
-              normal: {
-                color: 'white'
-              }
-            },
-            zlevel: -1,
-            z: 3,
-            data: [
-              new Date('2018-03-15'),
-              new Date('2018-02-16'),
-              new Date('2018-04-30')
-            ]
-          }
-        ]
-      }
-      myChart.setOption(option)
+          series: series_r
+        }
+        myChart.setOption(option, true)  //true不合并数据
+      })
+
     }
   }
 

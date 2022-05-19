@@ -101,6 +101,10 @@ export const crudOptions = (vm) => {
             props: {
               clearable: true
               // size: 'mini'
+            },
+            valueChange (key, value, form, { getColumn, mode, component, immediate, getComponent }) {
+              console.log('search change')
+              getColumn('danxiang').component.props.dict.url = '/sche/data/' + value + '/danxiang/'
             }
           }
         },
