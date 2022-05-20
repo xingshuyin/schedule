@@ -1,6 +1,9 @@
 from rest_framework.routers import SimpleRouter
+
+
 from .views.data import DataView
-from .views.view import FenBu_view, XiangMu_view, DanWei_view, DanXiang_view, FenXiang_view, MaterialIn_view, MaterialOut_view, Material_view
+from .views.view import FenBu_view, XiangMu_view, DanWei_view, DanXiang_view, FenXiang_view, MaterialIn_view, \
+    MaterialOut_view, Material_view, User_view
 
 router = SimpleRouter()
 router.register(prefix='data', viewset=DataView, basename='data')
@@ -12,6 +15,7 @@ router.register(r'fenxiang', FenXiang_view)
 router.register(r'materialin', MaterialIn_view)
 router.register(r'materialout', MaterialOut_view)
 router.register(r'material', Material_view)
+router.register(r'people', User_view)
 
 urlpatterns = []
 urlpatterns += router.urls

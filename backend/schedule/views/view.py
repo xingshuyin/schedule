@@ -3,7 +3,7 @@ from rest_framework.pagination import PageNumberPagination
 from dvadmin.utils.json_response import DetailResponse, SuccessResponse
 from dvadmin.utils.serializers import CustomModelSerializer
 from dvadmin.utils.viewset import CustomModelViewSet
-from ..models import DanWei, DanXiang, FenXiang, XiangMu, MaterialOut, MaterialIn, Media, Material,FenBu
+from ..models import DanWei, DanXiang, FenXiang, XiangMu, MaterialOut, MaterialIn, Media, Material,FenBu,User
 
 # Create your views here.
 
@@ -74,3 +74,4 @@ FenXiang_view = make_view(FenXiang)
 Material_view = make_view(Material)
 MaterialIn_view = make_view(MaterialIn)
 MaterialOut_view = make_view(MaterialOut)
+User_view = make_view(User)

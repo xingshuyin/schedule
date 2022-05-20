@@ -56,6 +56,7 @@ class DataView(viewsets.ViewSet):
         material = Material.objects.get(pk=pk)
         return JsonResponse({'code': 2000, 'data': {'unit': material.unit}}, safe=False)
 
+
     @action(['get'], detail=True, url_path='chart', url_name='chart', permission_classes=[])
     def GetChart(self, request, pk):
         fenxiangs = [{'fenbu_name': i.name, 'fb': i, 'fenxiang': [j for j in i.fenxiang_set.all()]}
