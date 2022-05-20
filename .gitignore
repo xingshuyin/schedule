@@ -2,3 +2,4 @@
 /backend/.idea
 .idea
 /node_modules/
+.python-version
