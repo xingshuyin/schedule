@@ -1,0 +1,1 @@
+(window["webpackJsonp"]=window["webpackJsonp"]||[]).push([["chunk-2d2221d7"],{ccde:function(n,t,e){"use strict";e.r(t),e.d(t,"urlPrefix",(function(){return r})),e.d(t,"GetList",(function(){return u}));var c=e("22ce"),r="/api/system/login_log/";function u(n){return Object(c["c"])({url:r,method:"get",params:n})}}}]);

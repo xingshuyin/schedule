@@ -1,0 +1,1 @@
+.dept-tree::-webkit-scrollbar{display:none}.dept-tree{height:160px;overflow-y:scroll;scrollbar-width:none;-ms-overflow-style:none}.flow-tree{overflow:auto;-webkit-box-flex:1;-ms-flex:1;flex:1;margin:10px}.flow-tree .el-tree-node .el-tree-node__children{overflow:visible!important}.yxtInput .el-form-item__label{color:#49a1ff}
